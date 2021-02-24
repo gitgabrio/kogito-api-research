@@ -37,6 +37,8 @@ public class ProcessMessages {
             this.context = context;
         }
 
+        protected CreateInstance() {}
+
         public Context context() {
             return context;
         }
@@ -51,6 +53,8 @@ public class ProcessMessages {
             return new StartInstance(requestId, processId, processInstanceId);
         }
 
+        protected StartInstance(){}
+
         private StartInstance(RequestId requestId, ProcessId processId, ProcessInstanceId processInstanceId) {
             super(requestId, processId, processInstanceId);
         }
@@ -62,7 +66,7 @@ public class ProcessMessages {
         public static NoSuchProcess of(RequestId requestId, ProcessId processId) {
             return new NoSuchProcess(requestId, processId);
         }
-
+        protected NoSuchProcess(){}
         public NoSuchProcess(RequestId requestId, ProcessId processId) {
             super(requestId, processId);
         }
@@ -72,6 +76,8 @@ public class ProcessMessages {
         public static InstanceCreated of(RequestId requestId, ProcessId processId, ProcessInstanceId processInstanceId) {
             return new InstanceCreated(requestId, processId, processInstanceId);
         }
+
+        protected InstanceCreated(){}
 
         private InstanceCreated(RequestId requestId, ProcessId processId, ProcessInstanceId processInstanceId) {
             super(requestId, processId, processInstanceId);
@@ -83,6 +89,8 @@ public class ProcessMessages {
             return new InstanceStarted(requestId, processId, processInstanceId);
         }
 
+        protected InstanceStarted() {}
+
         private InstanceStarted(RequestId requestId, ProcessId processId, ProcessInstanceId processInstanceId) {
             super(requestId, processId, processInstanceId);
         }
@@ -92,6 +100,8 @@ public class ProcessMessages {
         public static InstanceCompleted of(RequestId requestId, ProcessId processId, ProcessInstanceId processInstanceId) {
             return new InstanceCompleted(requestId, processId, processInstanceId);
         }
+
+        protected InstanceCompleted() {}
 
         private InstanceCompleted(RequestId requestId, ProcessId processId, ProcessInstanceId processInstanceId) {
             super(requestId, processId, processInstanceId);
@@ -111,13 +121,15 @@ public class ProcessMessages {
     }
 
     public static abstract class ProcessMessage implements Message {
-        private final RequestId requestId;
-        private final ProcessId processId;
+        private RequestId requestId;
+        private ProcessId processId;
 
         protected ProcessMessage(RequestId requestId, ProcessId processId) {
             this.requestId = requestId;
             this.processId = processId;
         }
+
+        protected ProcessMessage() {}
 
         public RequestId requestId() {
             return requestId;
@@ -134,12 +146,14 @@ public class ProcessMessages {
     }
 
     public static abstract class ProcessInstanceMessage extends ProcessMessage {
-        private final ProcessInstanceId processInstanceId;
+        private ProcessInstanceId processInstanceId;
 
         protected ProcessInstanceMessage(RequestId requestId, ProcessId processId, ProcessInstanceId processInstanceId) {
             super(requestId, processId);
             this.processInstanceId = processInstanceId;
         }
+
+        ProcessInstanceMessage() {}
 
         public ProcessInstanceId processInstanceId() {
             return processInstanceId;

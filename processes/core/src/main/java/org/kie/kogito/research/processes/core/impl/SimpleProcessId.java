@@ -5,7 +5,9 @@ import org.kie.kogito.research.processes.api.ProcessId;
 import java.util.Objects;
 
 public class SimpleProcessId implements ProcessId {
-    private final String value;
+    private String value;
+
+    protected SimpleProcessId() {}
 
     public static SimpleProcessId fromString(String id) {
         return new SimpleProcessId(id);

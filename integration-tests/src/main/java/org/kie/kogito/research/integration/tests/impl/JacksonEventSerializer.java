@@ -2,23 +2,23 @@ package org.kie.kogito.research.integration.tests.impl;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import io.quarkus.kafka.client.serialization.ObjectMapperDeserializer;
-import org.apache.kafka.common.serialization.Deserializer;
+import io.quarkus.kafka.client.serialization.ObjectMapperSerializer;
+import org.apache.kafka.common.serialization.Serializer;
 import org.kie.kogito.research.application.api.Context;
 import org.kie.kogito.research.application.api.Event;
 import org.kie.kogito.research.application.api.Id;
 import org.kie.kogito.research.processes.api.SimpleProcessContext;
 import org.kie.kogito.research.processes.api.messages.ProcessMessages;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.io.UncheckedIOException;
 
-public class JacksonEventDeserializer implements Deserializer<Event> {
+public class JacksonEventSerializer implements Serializer<Event> {
 
     private static final ObjectMapper mapper;
 
@@ -42,18 +42,12 @@ public class JacksonEventDeserializer implements Deserializer<Event> {
 
     }
 
-    public JacksonEventDeserializer() {
-    }
-
     @Override
-    public Event deserialize(String s, byte[] bytes) {
+    public byte[] serialize(String s, Event event) {
         try {
-            return mapper.readerFor(Event.class).readValue(bytes);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            throw e;
+            return mapper.writerFor(Event.class).writeValueAsBytes(event);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException(e);
         }
     }
 }

@@ -1,20 +1,30 @@
 package org.kie.kogito.research.integration.tests.impl;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.NamedType;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
+import org.kie.kogito.research.application.api.Context;
+import org.kie.kogito.research.application.api.Event;
+import org.kie.kogito.research.application.api.Id;
+import org.kie.kogito.research.application.api.impl.SimpleId;
+import org.kie.kogito.research.application.api.messages.RequestId;
+import org.kie.kogito.research.processes.api.SimpleProcessContext;
 import org.kie.kogito.research.processes.api.messages.ProcessMessages;
-import org.kie.kogito.research.processes.core.impl.AssertBus;
-import org.kie.kogito.research.processes.core.impl.ProcessImpl;
-import org.kie.kogito.research.processes.core.impl.SimpleProcessEvent;
-import org.kie.kogito.research.processes.core.impl.SimpleProcessId;
+import org.kie.kogito.research.processes.core.impl.*;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -30,6 +40,42 @@ public class ProcessMessagingAPITest {
     @Inject
     SmallryeProcessorMessageBus messageBus;
 
+
+    @Test
+    public void serializer() throws JsonProcessingException {
+
+        var mapper = new ObjectMapper();
+        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
+                .allowIfBaseType(Serializable.class)
+                .allowIfBaseType(Id.class)
+                .allowIfBaseType(Event.class)
+                .allowIfBaseType(ProcessMessages.Message.class)
+                .allowIfBaseType(Context.class)
+                .build();
+        mapper.activateDefaultTyping(ptv);
+
+        mapper.registerSubtypes(Event.class);
+
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        mapper.registerSubtypes(SimpleProcessContext.class);
+        mapper.registerSubtypes(ProcessMessages.Message.class);
+        mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+
+        String s = mapper.writerFor(Event.class).writeValueAsString(
+                new SimpleProcessEvent(SimpleProcessId.fromString("some-proc"), null,
+                ProcessMessages.CreateInstance.of(SimpleProcessId.fromString("blah"))));
+
+        System.out.println(s);
+
+        SimpleProcessEvent o = mapper.readerFor(Event.class).readValue(s);
+
+        System.out.println(o);
+
+        Object r = mapper.readerFor(Event.class).readValue("[\"org.kie.kogito.research.processes.core.impl.SimpleProcessEvent\",{\"senderId\":[\"org.kie.kogito.research.application.api.impl.SimpleId\",{\"uuid\":\"bbe77724-65cf-4ad2-b58c-3a128a3dc5b9\"}],\"targetId\":null,\"payload\":[\"org.kie.kogito.research.processes.api.messages.ProcessMessages$CreateInstance\",{\"requestId\":[\"org.kie.kogito.research.application.api.SimpleRequestId\",{\"uuid\":\"f80b6bf2-679d-46a2-ae03-1a281ba91b55\"}],\"processId\":[\"org.kie.kogito.research.processes.core.impl.SimpleProcessId\",{\"value\":\"my.process\"}],\"context\":[\"org.kie.kogito.research.processes.api.SimpleProcessContext\",{}]}]}]");
+
+        System.out.println(r);
+
+    }
 
     @Test
     public void createInstance() throws InterruptedException, ExecutionException, TimeoutException {
@@ -49,7 +95,7 @@ public class ProcessMessagingAPITest {
         var instanceCreated =
                 messages.send(createInstance)
                         .expect(ProcessMessages.InstanceCreated.class)
-                        .get(5, SECONDS);
+                        .get(25, SECONDS);
 
         assertEquals(createInstance.requestId(), instanceCreated.requestId());
         assertEquals(processId, instanceCreated.processId());
