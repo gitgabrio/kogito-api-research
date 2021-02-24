@@ -23,6 +23,9 @@ class ProcessMessagingAPITest {
         var processId = SimpleProcessId.fromString("my.process");
         var process = new ProcessImpl(null, processId, messageBus);
 
+        // end of internal API
+
+
         // create instance via message passing
         var createInstance = ProcessMessages.CreateInstance.of(processId);
         var instanceCreated =
@@ -64,6 +67,7 @@ class ProcessMessagingAPITest {
         var process = new ProcessImpl(pctr, processId, messageBus);
         pctr.register(asList(process));
 
+        // end of internal API
         var instance = api.createInstance(processId);
         instance.start();
         instance.awaitTermination();
