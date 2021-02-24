@@ -20,6 +20,6 @@ public class BroadcastProcessorMessageBus implements MessageBus<Event> {
 
     @Override
     public void subscribe(Consumer<Event> consumer) {
-        processor.subscribe().with(consumer);
+        processor.cache().subscribe().with(consumer);
     }
 }

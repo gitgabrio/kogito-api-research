@@ -8,8 +8,12 @@ import org.kie.kogito.research.application.api.impl.SimpleId;
 import org.kie.kogito.research.application.core.impl.BroadcastProcessorMessageBus;
 import org.kie.kogito.research.processes.api.ProcessEvent;
 import org.kie.kogito.research.processes.api.messages.ProcessMessages;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
+import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class RequestResponse {
     private final Id self;
@@ -21,37 +25,24 @@ public class RequestResponse {
         this.self = new SimpleId();
         this.messages =
                 processor.filter(e -> e.targetId() == self)
+                        .invoke(e -> System.out.println(e))
                         .map(ProcessEvent.class::cast)
-                        .map(ProcessEvent::payload);
+                        .map(ProcessEvent::payload)
+                        .cache();
     }
 
-    Expect send(ProcessMessages.Message message) {
-        return new Expect(message);
+    RequestResponse send(ProcessMessages.Message message) {
+        processor.onNext(new SimpleProcessEvent(self, null, message));
+        return this;
     }
 
-    public <E> CompletableFuture<E> expect(Class<E> expectedResponse) {
-        return messages
-                .filter(expectedResponse::isInstance)
-                .map(expectedResponse::cast)
-                .toUni().subscribeAsCompletionStage();
-
+    public <E extends ProcessMessages.Message> CompletableFuture<E> expect(Class<E> expectedResponse) {
+        var future =
+                messages
+                        .filter(expectedResponse::isInstance)
+                        .map(expectedResponse::cast)
+                        .toUni().subscribeAsCompletionStage();
+        return future;
     }
 
-    public class Expect {
-        private final ProcessMessages.Message message;
-
-        public Expect(ProcessMessages.Message message) {
-            this.message = message;
-        }
-
-        public <E> CompletableFuture<E> expect(Class<E> expectedResponse) {
-            var future =
-                    messages
-                            .filter(expectedResponse::isInstance)
-                            .map(expectedResponse::cast)
-                            .toUni().subscribeAsCompletionStage();
-            processor.onNext(new SimpleProcessEvent(self, null, message));
-            return future;
-        }
-    }
 }

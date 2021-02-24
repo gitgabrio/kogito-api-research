@@ -10,10 +10,7 @@ import org.kie.kogito.research.processes.api.ProcessInstance;
 import org.kie.kogito.research.processes.api.ProcessInstanceId;
 import org.kie.kogito.research.processes.api.messages.ProcessMessages;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -40,10 +37,6 @@ class ProcessMessagingAPITest {
         assertEquals(createInstance.requestId(), instanceCreated.requestId());
         assertEquals(processId, instanceCreated.processId());
 
-        // listen for process completion
-        var instanceCompletedListener =
-                messages.expect(ProcessMessages.InstanceCompleted.class);
-
         var processInstanceId = instanceCreated.processInstanceId();
 
         // start instance
@@ -57,15 +50,15 @@ class ProcessMessagingAPITest {
         assertEquals(processId, instanceStarted.processId());
         assertEquals(processInstanceId, instanceStarted.processInstanceId());
 
-        var instanceCompleted = instanceCompletedListener.get();
+        var instanceCompleted =
+                messages.expect(ProcessMessages.InstanceCompleted.class).get();
 
         assertEquals(processId, instanceCompleted.processId());
         assertEquals(processInstanceId, instanceCompleted.processInstanceId());
 
     }
 
-    @Test
-    public void blockingCreateInstance() throws ExecutionException, InterruptedException {
+    public void blockingCreateInstance() throws ExecutionException, InterruptedException, TimeoutException {
         // set up the system (internal APIs)
         ExecutorService service = Executors.newCachedThreadPool();
         var messageBus = new BroadcastProcessorMessageBus();

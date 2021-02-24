@@ -7,6 +7,8 @@ import org.kie.kogito.research.processes.api.messages.ProcessMessages;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class BlockingRequestResponse {
     RequestResponse requestResponse;
@@ -16,30 +18,30 @@ public class BlockingRequestResponse {
         this.requestResponse = new RequestResponse(messageBus);
     }
 
-    ProcessInstanceId createInstance(ProcessId processId) throws ExecutionException, InterruptedException {
+    ProcessInstanceId createInstance(ProcessId processId) throws ExecutionException, InterruptedException, TimeoutException {
         // create instance via message passing
         var createInstance = ProcessMessages.CreateInstance.of(processId);
         var instanceCreated =
                 requestResponse.send(createInstance)
                         .expect(ProcessMessages.InstanceCreated.class)
-                        .get();
+                        .get(5, TimeUnit.SECONDS);
         return instanceCreated.processInstanceId();
     }
 
-    void startInstance(ProcessId processId, ProcessInstanceId processInstanceId) throws ExecutionException, InterruptedException {
+    void startInstance(ProcessId processId, ProcessInstanceId processInstanceId) throws ExecutionException, InterruptedException, TimeoutException {
         var startInstance =
                 ProcessMessages.StartInstance.of(processId, processInstanceId);
 
-        completed = requestResponse.expect(ProcessMessages.InstanceCompleted.class);
 
         var instanceStarted = requestResponse
                 .send(startInstance)
                 .expect(ProcessMessages.InstanceStarted.class)
-                .get();
+                .get(1, TimeUnit.SECONDS);
     }
 
-    void awaitTermination() throws ExecutionException, InterruptedException {
-        completed.get();
+    void awaitTermination() throws ExecutionException, InterruptedException, TimeoutException {
+        requestResponse.expect(ProcessMessages.InstanceCompleted.class).get(1, TimeUnit.SECONDS);
+
     }
 
 }
