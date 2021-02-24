@@ -26,7 +26,7 @@ public class AssertBus {
 
         this.self = new SimpleId();
         this.messages =
-                processor.filter(e -> e.targetId() == self)
+                processor.filter(e -> self.equals(e.targetId()))
                         .map(ProcessEvent.class::cast)
                         .map(ProcessEvent::payload)
                         .cache();

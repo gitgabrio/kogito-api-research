@@ -13,19 +13,21 @@ import org.testcontainers.utility.DockerImageName;
 
 import javax.inject.Inject;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @QuarkusTest
-@QuarkusTestResource(KafkaResource.class)
+//@QuarkusTestResource(KafkaResource.class)
 public class ProcessMessagingAPITest {
 
     @Inject SmallryeProcessorMessageBus messageBus;
 
     @Test
-    public void createInstance() throws InterruptedException, ExecutionException {
+    public void createInstance() throws InterruptedException, ExecutionException, TimeoutException {
 
-//        var messageBus = new BroadcastProcessorMessageBus();
         // a test utility that wraps the bus to await responses
         var messages = new AssertBus(messageBus);
 
@@ -41,7 +43,7 @@ public class ProcessMessagingAPITest {
         var instanceCreated =
                 messages.send(createInstance)
                         .expect(ProcessMessages.InstanceCreated.class)
-                        .get();
+                        .get(5, SECONDS);
 
         assertEquals(createInstance.requestId(), instanceCreated.requestId());
         assertEquals(processId, instanceCreated.processId());

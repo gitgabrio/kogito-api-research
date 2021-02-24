@@ -1,5 +1,26 @@
 package org.kie.kogito.research.application.api.impl;
 
-public class SimpleId implements org.kie.kogito.research.application.api.Id {
+import java.util.Objects;
+import java.util.UUID;
 
+public class SimpleId implements org.kie.kogito.research.application.api.Id {
+    private final UUID uuid = UUID.randomUUID();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SimpleId simpleId = (SimpleId) o;
+        return Objects.equals(uuid, simpleId.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid);
+    }
+
+    @Override
+    public String toString() {
+        return "SimpleId(" + uuid + ')';
+    }
 }
