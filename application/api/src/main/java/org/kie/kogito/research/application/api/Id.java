@@ -1,5 +1,7 @@
 package org.kie.kogito.research.application.api;
 
-public interface Id {
+import java.io.Serializable;
+
+public interface Id extends Serializable {
 
 }

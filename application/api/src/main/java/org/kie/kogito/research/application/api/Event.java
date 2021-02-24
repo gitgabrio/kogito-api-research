@@ -1,7 +1,9 @@
 package org.kie.kogito.research.application.api;
 
-public interface Event {
+import java.io.Serializable;
+
+public interface Event extends Serializable {
     Id senderId();
     Id targetId();
-    Object payload();
+    Serializable payload();
 }

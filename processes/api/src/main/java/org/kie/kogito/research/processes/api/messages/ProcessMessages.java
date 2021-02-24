@@ -7,6 +7,7 @@ import org.kie.kogito.research.processes.api.ProcessId;
 import org.kie.kogito.research.processes.api.ProcessInstanceId;
 import org.kie.kogito.research.processes.api.SimpleProcessContext;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 public class ProcessMessages {
@@ -103,7 +104,7 @@ public class ProcessMessages {
     public interface Response {
     }
 
-    public interface Message {
+    public interface Message extends Serializable {
         <T extends Message> Optional<T> as(Class<T> type);
         RequestId requestId();
         ProcessId processId();

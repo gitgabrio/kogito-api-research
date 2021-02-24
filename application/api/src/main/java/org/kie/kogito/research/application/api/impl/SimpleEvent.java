@@ -3,17 +3,19 @@ package org.kie.kogito.research.application.api.impl;
 import org.kie.kogito.research.application.api.Event;
 import org.kie.kogito.research.application.api.Id;
 
+import java.io.Serializable;
+
 public class SimpleEvent implements Event {
 
     private final Id senderId;
     private final Id targetId;
-    private final Object payload;
+    private final Serializable payload;
 
-    public static SimpleEvent of(Id senderId, Id targetId, Object payload) {
+    public static SimpleEvent of(Id senderId, Id targetId, Serializable payload) {
         return new SimpleEvent(senderId, targetId, payload);
     }
 
-    protected SimpleEvent(Id senderId, Id targetId, Object payload) {
+    protected SimpleEvent(Id senderId, Id targetId, Serializable payload) {
         this.senderId = senderId;
         this.targetId = targetId;
         this.payload = payload;
@@ -29,7 +31,7 @@ public class SimpleEvent implements Event {
         return targetId;
     }
 
-    public Object payload() {
+    public Serializable payload() {
         return payload;
     }
 

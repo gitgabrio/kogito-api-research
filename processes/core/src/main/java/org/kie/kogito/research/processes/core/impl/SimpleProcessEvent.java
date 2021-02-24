@@ -5,8 +5,10 @@ import org.kie.kogito.research.application.api.impl.SimpleEvent;
 import org.kie.kogito.research.processes.api.ProcessEvent;
 import org.kie.kogito.research.processes.api.messages.ProcessMessages;
 
+import java.io.Serializable;
+
 public class SimpleProcessEvent extends SimpleEvent implements ProcessEvent {
-    protected SimpleProcessEvent(Id senderId, Id targetId, Object payload) {
+    protected SimpleProcessEvent(Id senderId, Id targetId, Serializable payload) {
         super(senderId, targetId, payload);
     }
     @Override
