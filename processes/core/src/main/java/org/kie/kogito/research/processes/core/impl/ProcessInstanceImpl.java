@@ -14,13 +14,11 @@ import java.util.concurrent.ExecutorService;
 
 public class ProcessInstanceImpl extends AbstractUnitInstance implements ProcessInstance {
     private final ExecutionModel executionModel;
-    private final Deque<Event> events;
     private final Id senderId;
 
-    public ProcessInstanceImpl(RequestId requestId, Id senderId, ProcessInstanceId id, ProcessImpl unit, Context context, ExecutorService service) {
+    public ProcessInstanceImpl(RequestId requestId, Id senderId, ProcessInstanceId id, ProcessImpl unit, Context context) {
         super(id, unit, context);
-        this.events = new ConcurrentLinkedDeque<>();
-        messageBus().subscribe(this::enqueue);
+        messageBus().subscribe(this::receive);
         messageBus().send(new SimpleProcessEvent(this.id(), senderId,
                 ProcessMessages.InstanceCreated.of(requestId, unit.id(), id)));
 
@@ -32,7 +30,6 @@ public class ProcessInstanceImpl extends AbstractUnitInstance implements Process
             this.executionModel = null;
         }
 
-        service.submit(new EventLoopRunner(this::run, service));
     }
 
     @Override
@@ -48,12 +45,6 @@ public class ProcessInstanceImpl extends AbstractUnitInstance implements Process
     @Override
     public MessageBus<ProcessEvent> messageBus() {
         return (MessageBus<ProcessEvent>) unit().messageBus();
-    }
-
-    public void run() {
-        for (Event event = events.poll(); event != null; event = events.poll()) {
-            receive(event);
-        }
     }
 
     protected void receive(Event event) {
@@ -77,12 +68,6 @@ public class ProcessInstanceImpl extends AbstractUnitInstance implements Process
         }
     }
 
-    protected void enqueue(Event event) {
-        if (event.targetId() == null ||
-                event.targetId().equals(this.unit().id()) ||
-                event.targetId().equals(this.id())) {
-            events.add(event);
-        }
-    }
+    public void run() {}
 
 }

@@ -57,6 +57,16 @@ public class ProcessMessages {
 
     // Responses
 
+    public static class NoSuchProcess extends ProcessMessage implements Response {
+        public static NoSuchProcess of(RequestId requestId, ProcessId processId) {
+            return new NoSuchProcess(requestId, processId);
+        }
+
+        public NoSuchProcess(RequestId requestId, ProcessId processId) {
+            super(requestId, processId);
+        }
+    }
+
     public static class InstanceCreated extends ProcessInstanceMessage implements Response {
         public static InstanceCreated of(RequestId requestId, ProcessId processId, ProcessInstanceId processInstanceId) {
             return new InstanceCreated(requestId, processId, processInstanceId);
@@ -95,6 +105,8 @@ public class ProcessMessages {
 
     public interface Message {
         <T extends Message> Optional<T> as(Class<T> type);
+        RequestId requestId();
+        ProcessId processId();
     }
 
     public static abstract class ProcessMessage implements Message {
