@@ -1,5 +1,7 @@
 package org.kie.kogito.research.integration.tests.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.ClassRule;
@@ -7,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.kie.kogito.research.processes.api.messages.ProcessMessages;
 import org.kie.kogito.research.processes.core.impl.AssertBus;
 import org.kie.kogito.research.processes.core.impl.ProcessImpl;
+import org.kie.kogito.research.processes.core.impl.SimpleProcessEvent;
 import org.kie.kogito.research.processes.core.impl.SimpleProcessId;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.utility.DockerImageName;
@@ -18,12 +21,15 @@ import java.util.concurrent.TimeoutException;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
 //@QuarkusTestResource(KafkaResource.class)
 public class ProcessMessagingAPITest {
 
-    @Inject SmallryeProcessorMessageBus messageBus;
+    @Inject
+    SmallryeProcessorMessageBus messageBus;
+
 
     @Test
     public void createInstance() throws InterruptedException, ExecutionException, TimeoutException {

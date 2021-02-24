@@ -7,9 +7,11 @@ import java.io.Serializable;
 
 public class SimpleEvent implements Event {
 
-    private final Id senderId;
-    private final Id targetId;
-    private final Serializable payload;
+    private Id senderId;
+    private Id targetId;
+    private Serializable payload;
+
+    protected SimpleEvent() {}
 
     public static SimpleEvent of(Id senderId, Id targetId, Serializable payload) {
         return new SimpleEvent(senderId, targetId, payload);

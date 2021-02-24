@@ -1,11 +1,13 @@
 package org.kie.kogito.research.integration.tests.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.smallrye.mutiny.Multi;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.jboss.logging.Logger;
 import org.kie.kogito.research.application.api.Event;
 import org.kie.kogito.research.application.api.MessageBus;
+import org.kie.kogito.research.processes.core.impl.SimpleProcessEvent;
 import org.reactivestreams.Publisher;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +17,9 @@ import java.util.function.Consumer;
 
 @ApplicationScoped
 public class SmallryeProcessorMessageBus implements MessageBus<Event> {
+    @Inject
+    ObjectMapper objectMapper;
+
     private final static Logger LOGGER = Logger.getLogger(SmallryeProcessorMessageBus.class);
 
     @Inject
