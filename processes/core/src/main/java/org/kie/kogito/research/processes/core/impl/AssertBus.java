@@ -3,6 +3,7 @@ package org.kie.kogito.research.processes.core.impl;
 import io.smallrye.mutiny.Multi;
 import org.kie.kogito.research.application.api.Event;
 import org.kie.kogito.research.application.api.Id;
+import org.kie.kogito.research.application.api.MessageBus;
 import org.kie.kogito.research.application.api.impl.SimpleId;
 import org.kie.kogito.research.application.api.messages.RequestId;
 import org.kie.kogito.research.application.core.impl.BroadcastProcessorMessageBus;
@@ -16,9 +17,9 @@ public class AssertBus {
     private final Id self;
     private final Multi<ProcessMessages.Message> messages;
     private final Multi<Event> processor;
-    private final BroadcastProcessorMessageBus messageBus;
+    private final MessageBus<Event> messageBus;
 
-    AssertBus(BroadcastProcessorMessageBus messageBus) {
+    public AssertBus(MessageBus<Event> messageBus) {
         this.processor = Multi.createFrom().publisher(messageBus.publisher());
         this.messageBus = messageBus;
 
@@ -31,7 +32,7 @@ public class AssertBus {
                         .cache();
     }
 
-    ExpectResponse send(ProcessMessages.Message message) {
+    public ExpectResponse send(ProcessMessages.Message message) {
         messageBus.send(new SimpleProcessEvent(self, null, message));
         return new ExpectResponse(message);
     }

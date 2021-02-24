@@ -19,6 +19,7 @@
     <module>application</module>
     <module>processes</module>
     <module>rules</module>
+    <module>integration-tests</module>
   </modules>
 
   <dependencies>
