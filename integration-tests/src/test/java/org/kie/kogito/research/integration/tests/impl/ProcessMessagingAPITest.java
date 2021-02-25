@@ -41,7 +41,7 @@ public class ProcessMessagingAPITest {
     SmallryeProcessorMessageBus messageBus;
 
 
-    @Test
+//    @Test
     public void serializer() throws JsonProcessingException {
 
         var mapper = new ObjectMapper();
