@@ -1,5 +1,7 @@
 package org.kie.kogito.research.processes.core.impl;
 
+import org.kie.kogito.research.application.api.Event;
+import org.kie.kogito.research.application.api.MessageBus;
 import org.kie.kogito.research.application.core.impl.BroadcastProcessorMessageBus;
 import org.kie.kogito.research.processes.api.ProcessId;
 import org.kie.kogito.research.processes.api.ProcessInstanceId;
@@ -15,11 +17,11 @@ public class BlockingApi {
     AssertBus assertBus;
     private CompletableFuture<ProcessMessages.InstanceCompleted> completed;
 
-    BlockingApi(BroadcastProcessorMessageBus messageBus) {
+    public BlockingApi(MessageBus<Event> messageBus) {
         this.assertBus = new AssertBus(messageBus);
     }
 
-    ProxyProcessInstance createInstance(ProcessId processId) throws ExecutionException, InterruptedException, TimeoutException {
+    public ProxyProcessInstance createInstance(ProcessId processId) throws ExecutionException, InterruptedException, TimeoutException {
         // create instance via message passing
         var createInstance = ProcessMessages.CreateInstance.of(processId);
         var response =

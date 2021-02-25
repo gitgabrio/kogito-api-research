@@ -75,8 +75,8 @@ public class AssertBus {
         public CompletableFuture<ProcessMessages.ProcessMessage> expect() {
             var future =
                     messages
-                            .map(e ->  ((ProcessMessages.ProcessMessage) e))
-                            .filter(e -> e.requestId() == message.requestId())
+                            .map(e -> ((ProcessMessages.ProcessMessage) e))
+                            .filter(e -> e.requestId().equals(message.requestId()))
                             .toUni().subscribeAsCompletionStage();
             return future;
         }
