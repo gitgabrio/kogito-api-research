@@ -16,9 +16,10 @@
 
 
     <modules>
-        <module>application</module>
+        <module>kogito-application</module>
         <module>kogito-models</module>
         <module>kogito-message-buses</module>
+        <module>kogito-bus-server</module>
         <module>kogito-api-research-integration-tests</module>
     </modules>
 

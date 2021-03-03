@@ -12,8 +12,14 @@ public class SimpleProcessEvent extends SimpleEvent implements ProcessEvent {
     public SimpleProcessEvent(Id senderId, Id targetId, Serializable payload) {
         super(senderId, targetId, payload);
     }
+
     @Override
     public ProcessMessages.Message payload() {
         return (ProcessMessages.Message) super.payload();
+    }
+
+    @Override
+    public Id getExecutorId() {
+        return payload().processId();
     }
 }

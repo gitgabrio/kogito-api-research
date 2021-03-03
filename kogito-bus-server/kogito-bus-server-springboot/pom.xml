@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>kogito-models</artifactId>
+        <artifactId>kogito-bus-server</artifactId>
         <groupId>org.kie.kogito.research</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>kogito-models-api</artifactId>
+    <artifactId>kogito-bus-server-springboot</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>org.kie.kogito.research</groupId>
-            <artifactId>kogito-application-api</artifactId>
+            <artifactId>kogito-bus-server-api</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

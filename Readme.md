@@ -1,6 +1,8 @@
 KOGITO-API-RESEARCH
 ===================
 
+This project features the Kafka messaging environment as managed by the [Confluent Platform](https://docs.confluent.io/platform/current/quickstart/ce-docker-quickstart.html). Look at the link for further information.
+
 Main idea behind this implementation is to have a distributed/scalable system of model-executing instances.
 See [original plan](https://docs.google.com/document/d/1JUTi4c2w_oASgU_kaxUDYdLfpAbN3DyQ05gFvomh-Ss/) for details
 
@@ -45,7 +47,36 @@ The design description leads to the following observations, constraints and choi
 
 The above naming convention has been used for sake of understanding. Current status (POC WIP) uses different naming, notably
 
-1) ModelServer -> ServerMain
+1) ModelServer -> AbstractModelServer
+
+Classes inside `kogito-api-research-integration-tests` are meant to represent the code-generated ones.
+
+Quick Environment Setup and Start
+=================================
+
+1) Download or copy the contents of the [Confluent Platform all-in-one Docker Compose file](https://raw.githubusercontent.com/confluentinc/cp-all-in-one/6.1.0-post/cp-all-in-one/docker-compose.yml), for example:
+
+   `curl --silent --output docker-compose.yml \
+   https://raw.githubusercontent.com/confluentinc/cp-all-in-one/6.1.0-post/cp-all-in-one/docker-compose.yml`
+
+2) Start Confluent Platform (use the -d option to run in detach mode); inside kogito-api-research:
+
+   `docker-compose up zookeeper broker`
+
+3) To verify that the services are up and running, run the following command:
+
+   `docker-compose ps`
+
+4) Start the server; inside kogito-api-research/kogito-api-research-integration-tests/kogito-api-research-integration-tests-server-app-quarkus
+
+   `mvn compile quarkus:dev`
+
+5) Start the client; inside kogito-api-research/kogito-api-research-integration-tests/kogito-api-research-integration-tests-client-app-quarkus:
+
+   `mvn compile quarkus:dev`
+
+
+
 
 
 
