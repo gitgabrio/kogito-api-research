@@ -6,7 +6,7 @@ import org.kie.kogito.research.application.api.Context;
 
 import java.io.Serializable;
 
-@JsonTypeName("org.kie.kogito.research.processes.api.SimpleProcessContext")
+@JsonTypeName("SimpleProcessContext")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
 public class SimpleProcessContext implements Context, Serializable {
 }

@@ -13,7 +13,9 @@
 
 
     <modules>
-        <module>kogito-api-research-integration-tests-server-app-quarkus</module>
-        <module>kogito-api-research-integration-tests-client-app-quarkus</module>
+        <module>kogito-api-research-integration-tests-server-app-quarkus-processes</module>
+        <module>kogito-api-research-integration-tests-client-app-quarkus-processes</module>
+        <module>kogito-api-research-integration-tests-server-app-quarkus-predictions</module>
+        <module>kogito-api-research-integration-tests-client-app-quarkus-predictions</module>
     </modules>
 </project>

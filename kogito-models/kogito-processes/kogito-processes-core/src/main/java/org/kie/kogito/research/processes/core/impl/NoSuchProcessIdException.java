@@ -1,6 +1,6 @@
 package org.kie.kogito.research.processes.core.impl;
 
-import org.kie.kogito.research.processes.api.ProcessId;
+import org.kie.kogito.research.processes.api.ids.ProcessId;
 
 public class NoSuchProcessIdException extends RuntimeException {
     private final ProcessId processId;

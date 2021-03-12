@@ -1,6 +1,6 @@
 package org.kie.kogito.research.processes.core.impl;
 
-import org.kie.kogito.research.processes.api.ProcessInstanceId;
+import org.kie.kogito.research.processes.api.ids.ProcessInstanceId;
 
 import java.util.Objects;
 import java.util.UUID;

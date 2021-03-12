@@ -21,6 +21,7 @@
         <module>kogito-processes</module>
         <module>kogito-rules</module>
         <module>kogito-models-api</module>
+        <module>kogito-predictions</module>
     </modules>
 
 </project>

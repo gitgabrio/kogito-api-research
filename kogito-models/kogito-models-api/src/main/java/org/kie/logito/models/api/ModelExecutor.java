@@ -16,14 +16,12 @@
 package org.kie.logito.models.api;
 
 
-import org.kie.kogito.research.application.api.Id;
+import org.kie.kogito.research.application.api.ids.ModelId;
 
 /**
  * Root of all concrete <b>Model executors</b>
  */
-public interface ModelExecutor<T extends Id, E extends Id> {
+public interface ModelExecutor<T extends ModelId> {
 
     T getId();
-
-    E getInstanceId();
 }

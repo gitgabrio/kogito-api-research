@@ -1,9 +1,9 @@
 package org.kie.kogito.research.processes.api;
 
-import org.kie.kogito.research.application.api.Context;
-import org.kie.kogito.research.application.api.Unit;
+import org.kie.kogito.research.application.api.Model;
+import org.kie.kogito.research.processes.api.ids.ProcessId;
 
-public interface Process extends Unit {
+public interface Process extends Model<ProcessId, ProcessMessage, ProcessEvent> {
     @Override ProcessId id();
-    @Override ProcessInstance createInstance(Context ctx);
+//    @Override ProcessInstance createInstance(Context ctx);
 }

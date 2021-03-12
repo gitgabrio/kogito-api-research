@@ -1,30 +1,29 @@
 package org.kie.kogito.research.processes.core.impl;
 
-import org.kie.kogito.research.application.api.*;
-import org.kie.kogito.research.application.api.impl.AbstractUnitContainer;
-import org.kie.kogito.research.application.api.impl.LambdaMessageBus;
-import org.kie.kogito.research.application.api.impl.SimpleId;
+import org.kie.kogito.research.application.api.Application;
+import org.kie.kogito.research.application.api.ids.Id;
+import org.kie.kogito.research.application.api.ids.SimpleId;
+import org.kie.kogito.research.application.api.impl.AbstractModelContainer;
 import org.kie.kogito.research.processes.api.Process;
-import org.kie.kogito.research.processes.api.ProcessContainer;
-import org.kie.kogito.research.processes.api.ProcessEvent;
-import org.kie.kogito.research.processes.api.ProcessId;
-import org.kie.kogito.research.processes.api.messages.ProcessMessages;
+import org.kie.kogito.research.processes.api.*;
+import org.kie.kogito.research.processes.api.ids.ProcessId;
 
 import java.util.Collection;
 
-public class ProcessContainerImpl extends AbstractUnitContainer<Process> implements ProcessContainer {
-    private final MessageBus<ProcessEvent> messageBus;
+public class ProcessContainerImpl extends AbstractModelContainer<ProcessId, ProcessMessage, ProcessEvent, Process> implements ProcessContainer {
+
+    private ProcessMessageBus messageBus;
     private Id id = new SimpleId();
 
-    public ProcessContainerImpl(Application application, MessageBus<? extends Event> messageBus) {
+    public ProcessContainerImpl(ProcessApplication application, ProcessMessageBus messageBus) {
         super(application);
-        this.messageBus = (MessageBus<ProcessEvent>) messageBus;
+        this.messageBus = messageBus;
         this.messageBus.subscribe(this::receive);
     }
 
-    public ProcessContainerImpl(Application application) {
+    public ProcessContainerImpl(ProcessApplication application) {
         super(application);
-        this.messageBus = new LambdaMessageBus<>(this::send);
+//        this.messageBus = new LambdaMessageBus<>(this::send);
     }
 
     public void register(Collection<? extends Process> processes) {
@@ -33,21 +32,14 @@ public class ProcessContainerImpl extends AbstractUnitContainer<Process> impleme
         }
     }
 
-    @Override
-    public Process get(UnitId unitId) {
-        if (! (unitId instanceof ProcessId)) {
-            return null;
-        }
-        return super.get(unitId);
+    private void receive(ProcessEvent event) {
+//        event.payload().as(ProcessCreateInstanceMessage.class).ifPresent(createInstance -> {
+//            Process process = get(createInstance.modelId());
+//            if (process == null) {
+//                messageBus.send(new SimpleProcessInstanceEvent(this.id, event.senderId(),
+//                        new ProcessNoSuchMessage(createInstance.requestId(), createInstance.modelId())));
+//            }
+//        });
     }
 
-    private void receive(ProcessEvent event) {
-        event.payload().as(ProcessMessages.CreateInstance.class).ifPresent(createInstance -> {
-            Process process = get(createInstance.processId());
-            if (process == null) {
-                messageBus.send(new SimpleProcessEvent(this.id, event.senderId(),
-                        ProcessMessages.NoSuchProcess.of(createInstance.requestId(), createInstance.processId())));
-            }
-        });
-    }
 }

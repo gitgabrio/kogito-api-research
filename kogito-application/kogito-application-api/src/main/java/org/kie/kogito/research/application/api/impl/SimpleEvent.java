@@ -1,7 +1,7 @@
 package org.kie.kogito.research.application.api.impl;
 
-import org.kie.kogito.research.application.api.Event;
-import org.kie.kogito.research.application.api.Id;
+import org.kie.kogito.research.application.api.events.Event;
+import org.kie.kogito.research.application.api.ids.Id;
 
 import java.io.Serializable;
 

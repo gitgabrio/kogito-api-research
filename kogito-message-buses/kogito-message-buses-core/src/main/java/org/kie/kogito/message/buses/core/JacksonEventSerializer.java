@@ -9,8 +9,8 @@ import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import org.apache.kafka.common.serialization.Serializer;
 import org.kie.kogito.research.application.api.Context;
-import org.kie.kogito.research.application.api.Event;
-import org.kie.kogito.research.application.api.Id;
+import org.kie.kogito.research.application.api.events.Event;
+import org.kie.kogito.research.application.api.ids.Id;
 
 import java.io.Serializable;
 

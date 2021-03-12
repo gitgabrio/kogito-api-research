@@ -16,8 +16,11 @@
 package org.kie.kogito.bus.server.api;
 
 
-import org.kie.kogito.research.application.api.Event;
+import org.kie.kogito.research.application.api.events.Event;
 import org.kie.kogito.research.application.api.MessageBus;
+import org.kie.kogito.research.application.api.events.ModelEvent;
+import org.kie.kogito.research.application.api.ids.ModelId;
+import org.kie.kogito.research.application.api.messages.ModelMessage;
 import org.kie.logito.models.api.ModelExecutor;
 
 import java.util.List;
@@ -28,13 +31,13 @@ import java.util.logging.Logger;
  * Abstract <b>ModelServer</b> class to hold all required methods by concrete implementations.
  * It has to be completely CDI-agnostic
  */
-public abstract class AbstractModelServer<T extends ModelExecutor, E extends Event> {
+public abstract class AbstractModelServer<T extends ModelId, E extends ModelMessage<T>,  K extends ModelExecutor<T>, U extends ModelEvent<T, E>> {
 
     private static final Logger LOGGER = Logger.getLogger(AbstractModelServer.class.getName());
 
-    protected MessageBus<E> messageBus;
+    protected MessageBus<T, E, U> messageBus;
 
-    private List<T> modelExecutors;
+    private List<K> modelExecutors;
 
     /**
      * Constructor to bind the concrete instance to the actual
@@ -44,17 +47,17 @@ public abstract class AbstractModelServer<T extends ModelExecutor, E extends Eve
      * @param messageBus
      * @param modelExecutors
      */
-    protected AbstractModelServer(MessageBus<E> messageBus, List<T> modelExecutors) {
+    protected AbstractModelServer(MessageBus<T, E, U> messageBus, List<K> modelExecutors) {
         this.messageBus = messageBus;
         this.modelExecutors = modelExecutors;
         this.messageBus.subscribe(this::manageEvent);
     }
 
-    protected void manageEvent(final E toManage) {
+    protected void manageEvent(final U toManage) {
        if (modelExecutors == null || modelExecutors.isEmpty()) {
            sendReply(getNoExecutorReply(toManage));
        }
-        Optional<T> modelExecutor = modelExecutors
+        Optional<K> modelExecutor = modelExecutors
                 .stream()
                 .filter(executor -> toManage.getExecutorId().equals(executor.getId()))
                 .findFirst();
@@ -65,7 +68,7 @@ public abstract class AbstractModelServer<T extends ModelExecutor, E extends Eve
        }
     }
 
-    protected void sendReply(final E toSend) {
+    protected void sendReply(final U toSend) {
         messageBus.send(toSend);
     }
 
@@ -74,7 +77,7 @@ public abstract class AbstractModelServer<T extends ModelExecutor, E extends Eve
      * binding it to the underlined <code>MessageBus</code>
      * @param toReceive
      */
-    protected abstract void receive(final T modelExecutor, final E toReceive);
+    public abstract void receive(final K modelExecutor, final U toReceive);
 
 
     /**
@@ -83,7 +86,7 @@ public abstract class AbstractModelServer<T extends ModelExecutor, E extends Eve
      * This delegation is used due to maintain <b>Generic</b> contract.
      * @return
      */
-    protected abstract E getNoExecutorReply(E event);
+    protected abstract U getNoExecutorReply(U event);
 
     /**
      * Concrete implementation must provide a reply when no <b>matching </b>executor have been registered,
@@ -91,7 +94,7 @@ public abstract class AbstractModelServer<T extends ModelExecutor, E extends Eve
      * This delegation is used due to maintain <b>Generic</b> contract.
      * @return
      */
-    protected abstract E getNoMatchingExecutorReply(E event);
+    protected abstract U getNoMatchingExecutorReply(U event);
 
 
 }

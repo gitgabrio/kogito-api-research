@@ -7,9 +7,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import io.quarkus.jackson.ObjectMapperCustomizer;
-import org.kie.kogito.research.application.api.Event;
-import org.kie.kogito.research.application.api.Id;
-import org.kie.kogito.research.processes.api.SimpleProcessContext;
+import org.kie.kogito.research.application.api.Context;
+import org.kie.kogito.research.application.api.events.Event;
+import org.kie.kogito.research.application.api.ids.Id;
 
 import javax.inject.Singleton;
 
@@ -26,7 +26,7 @@ public class RegisterCustomModuleCustomizer implements ObjectMapperCustomizer {
         mapper.registerSubtypes(Event.class);
 
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-        mapper.registerSubtypes(SimpleProcessContext.class);
+        mapper.registerSubtypes(Context.class);
         mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
     }
 }

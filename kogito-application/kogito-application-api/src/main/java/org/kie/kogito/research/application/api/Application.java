@@ -1,7 +1,12 @@
 package org.kie.kogito.research.application.api;
 
-public interface Application {
-    <T extends UnitContainer> T get(Class<T> ctr);
+import org.kie.kogito.research.application.api.events.ModelEvent;
+import org.kie.kogito.research.application.api.ids.ModelId;
+import org.kie.kogito.research.application.api.messages.ModelMessage;
 
-    void send(Event event);
+public interface Application<T extends ModelId, E extends ModelMessage<T>, U extends ModelEvent<T, E>, I extends Model<T, E, U>, K extends ModelContainer<T, E, U, I>> {
+
+    K get(Class<K> ctr);
+
+    void send(U event);
 }

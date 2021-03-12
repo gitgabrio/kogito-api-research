@@ -1,12 +1,6 @@
 package org.kie.kogito.research.processes.core.impl;
 
 import org.junit.jupiter.api.Test;
-import org.kie.kogito.research.application.api.Context;
-import org.kie.kogito.research.application.api.Event;
-import org.kie.kogito.research.application.api.ExecutionModel;
-import org.kie.kogito.research.application.core.impl.BroadcastProcessorMessageBus;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -72,7 +66,7 @@ class ProcessContainerImplTest {
 //                        .createInstance(ctx2);
 //
 //
-//        var event = new SimpleProcessEvent(null, SimpleProcessId.fromString("a.process"), "Payload");
+//        var event = new SimpleProcessInstanceEvent(null, SimpleProcessId.fromString("a.process"), "Payload");
 //        a.run();
 //        third.run();
 //

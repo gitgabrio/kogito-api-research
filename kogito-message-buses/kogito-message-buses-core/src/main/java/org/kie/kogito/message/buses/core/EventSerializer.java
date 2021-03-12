@@ -1,7 +1,7 @@
 package org.kie.kogito.message.buses.core;
 
 import org.apache.kafka.common.serialization.Serializer;
-import org.kie.kogito.research.application.api.Event;
+import org.kie.kogito.research.application.api.events.Event;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

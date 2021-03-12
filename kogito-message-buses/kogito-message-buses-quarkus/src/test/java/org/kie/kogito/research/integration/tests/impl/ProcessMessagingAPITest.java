@@ -10,20 +10,17 @@ import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 import org.kie.kogito.research.application.api.Context;
-import org.kie.kogito.research.application.api.Event;
-import org.kie.kogito.research.application.api.Id;
+import org.kie.kogito.research.application.api.events.Event;
+import org.kie.kogito.research.application.api.ids.Id;
 import org.kie.kogito.research.processes.api.SimpleProcessContext;
-import org.kie.kogito.research.processes.api.messages.ProcessMessages;
-import org.kie.kogito.research.processes.core.impl.*;
+import org.kie.kogito.research.processes.api.ProcessMessage;
+import org.kie.kogito.research.processes.core.impl.SimpleProcessId;
+import org.kie.kogito.research.processes.core.impl.SimpleProcessInstanceEvent;
 
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
-
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
 //@QuarkusTestResource(KafkaResource.class)
@@ -36,36 +33,36 @@ public class ProcessMessagingAPITest {
 //    @Test
     public void serializer() throws JsonProcessingException {
 
-        var mapper = new ObjectMapper();
-        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
-                .allowIfBaseType(Serializable.class)
-                .allowIfBaseType(Id.class)
-                .allowIfBaseType(Event.class)
-                .allowIfBaseType(ProcessMessages.Message.class)
-                .allowIfBaseType(Context.class)
-                .build();
-        mapper.activateDefaultTyping(ptv);
-
-        mapper.registerSubtypes(Event.class);
-
-        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-        mapper.registerSubtypes(SimpleProcessContext.class);
-        mapper.registerSubtypes(ProcessMessages.Message.class);
-        mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-
-        String s = mapper.writerFor(Event.class).writeValueAsString(
-                new SimpleProcessEvent(SimpleProcessId.fromString("some-proc"), null,
-                ProcessMessages.CreateInstance.of(SimpleProcessId.fromString("blah"))));
-
-        System.out.println(s);
-
-        SimpleProcessEvent o = mapper.readerFor(Event.class).readValue(s);
-
-        System.out.println(o);
-
-        Object r = mapper.readerFor(Event.class).readValue("[\"org.kie.kogito.research.processes.core.impl.SimpleProcessEvent\",{\"senderId\":[\"org.kie.kogito.research.application.api.impl.SimpleId\",{\"uuid\":\"bbe77724-65cf-4ad2-b58c-3a128a3dc5b9\"}],\"targetId\":null,\"payload\":[\"org.kie.kogito.research.processes.api.messages.ProcessMessages$CreateInstance\",{\"requestId\":[\"org.kie.kogito.research.application.api.SimpleRequestId\",{\"uuid\":\"f80b6bf2-679d-46a2-ae03-1a281ba91b55\"}],\"processId\":[\"org.kie.logito.models.api.SimpleProcessId\",{\"value\":\"my.process\"}],\"context\":[\"org.kie.kogito.research.processes.api.SimpleProcessContext\",{}]}]}]");
-
-        System.out.println(r);
+//        var mapper = new ObjectMapper();
+//        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
+//                .allowIfBaseType(Serializable.class)
+//                .allowIfBaseType(Id.class)
+//                .allowIfBaseType(Event.class)
+//                .allowIfBaseType(ProcessMessage.class)
+//                .allowIfBaseType(Context.class)
+//                .build();
+//        mapper.activateDefaultTyping(ptv);
+//
+//        mapper.registerSubtypes(Event.class);
+//
+//        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+//        mapper.registerSubtypes(SimpleProcessContext.class);
+//        mapper.registerSubtypes(ProcessMessage.class);
+//        mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+//
+//        String s = mapper.writerFor(Event.class).writeValueAsString(
+//                new SimpleProcessInstanceEvent(SimpleProcessId.fromString("some-proc"), null,
+//                ProcessCreateInstanceMessage.of(SimpleProcessId.fromString("blah"))));
+//
+//        System.out.println(s);
+//
+//        SimpleProcessInstanceEvent o = mapper.readerFor(Event.class).readValue(s);
+//
+//        System.out.println(o);
+//
+//        Object r = mapper.readerFor(Event.class).readValue("[\"org.kie.kogito.research.processes.core.impl.SimpleProcessInstanceEvent\",{\"senderId\":[\"org.kie.kogito.research.application.api.ids.SimpleId\",{\"uuid\":\"bbe77724-65cf-4ad2-b58c-3a128a3dc5b9\"}],\"targetId\":null,\"payload\":[\"ProcessMessages$CreateInstance\",{\"requestId\":[\"org.kie.kogito.research.application.api.ids.SimpleRequestId\",{\"uuid\":\"f80b6bf2-679d-46a2-ae03-1a281ba91b55\"}],\"processId\":[\"org.kie.logito.models.api.SimpleProcessId\",{\"value\":\"my.process\"}],\"context\":[\"SimpleProcessContext\",{}]}]}]");
+//
+//        System.out.println(r);
 
     }
 

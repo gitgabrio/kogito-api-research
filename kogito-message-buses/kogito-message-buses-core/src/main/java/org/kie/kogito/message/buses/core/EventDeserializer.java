@@ -1,7 +1,7 @@
 package org.kie.kogito.message.buses.core;
 
 import org.apache.kafka.common.serialization.Deserializer;
-import org.kie.kogito.research.application.api.Event;
+import org.kie.kogito.research.application.api.events.Event;
 
 import java.io.*;
 

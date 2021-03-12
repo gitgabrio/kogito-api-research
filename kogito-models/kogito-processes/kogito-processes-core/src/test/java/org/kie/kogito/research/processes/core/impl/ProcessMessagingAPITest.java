@@ -1,14 +1,10 @@
 package org.kie.kogito.research.processes.core.impl;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.kie.kogito.research.application.core.impl.BroadcastProcessorMessageBus;
-import org.kie.kogito.research.processes.api.messages.ProcessMessages;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
-import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProcessMessagingAPITest {
