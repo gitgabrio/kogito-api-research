@@ -14,7 +14,7 @@ public class ProcessContainerImpl extends AbstractUnitContainer<Process> impleme
         super(application);
     }
 
-    public void register(Collection<? extends Process> processes) {
+    protected void register(Collection<? extends Process> processes) {
         for (Process p : processes) {
             super.register(p);
         }

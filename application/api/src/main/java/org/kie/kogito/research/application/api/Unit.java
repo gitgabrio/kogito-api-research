@@ -3,5 +3,5 @@ package org.kie.kogito.research.application.api;
 public interface Unit {
     Application application();
     UnitId id();
-    UnitInstance createInstance(Context ctx);
+    UnitInstance createInstance(Class<? extends Context> ctx);
 }
