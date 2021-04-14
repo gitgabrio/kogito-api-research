@@ -5,5 +5,4 @@ public interface UnitContainer {
 
     Unit get(UnitId unitId);
 
-    void send(Event event);
 }

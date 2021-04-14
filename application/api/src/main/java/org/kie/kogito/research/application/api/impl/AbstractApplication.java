@@ -16,13 +16,6 @@ public abstract class AbstractApplication implements Application {
     }
 
     @Override
-    public void send(Event event) {
-        for (UnitContainer ctr : containers.values()) {
-            ctr.send(event);
-        }
-    }
-
-    @Override
     public <T extends UnitContainer> T get(Class<T> ctr) {
         return (T) containers.get(ctr);
     }

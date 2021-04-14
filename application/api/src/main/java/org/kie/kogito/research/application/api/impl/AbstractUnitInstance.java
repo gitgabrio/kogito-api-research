@@ -29,19 +29,4 @@ public abstract class AbstractUnitInstance implements UnitInstance {
         return context;
     }
 
-    @Override
-    public MessageBus<? extends Event> messageBus() {
-        return this::send;
-    }
-
-    protected void send(Event event) {
-        if (context instanceof ExecutionModel) {
-            ExecutionModel executionModel = (ExecutionModel) this.context;
-            if (event.targetId() == null ||
-                    event.targetId().equals(this.unit.id()) ||
-                    event.targetId().equals(this.id())) {
-                executionModel.onEvent(event);
-            }
-        }
-    }
 }

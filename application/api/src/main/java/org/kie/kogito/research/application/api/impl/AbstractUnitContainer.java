@@ -28,11 +28,4 @@ public class AbstractUnitContainer<U extends Unit> implements UnitContainer {
         return units.get(unitId);
     }
 
-    @Override
-    public void send(Event event) {
-        for (U u : units.values()) {
-            MessageBus<Event> messageBus = (MessageBus<Event>) u.messageBus();
-            messageBus.send(event);
-        }
-    }
 }

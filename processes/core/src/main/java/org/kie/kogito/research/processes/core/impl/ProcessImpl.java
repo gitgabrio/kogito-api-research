@@ -1,34 +1,26 @@
 package org.kie.kogito.research.processes.core.impl;
 
 import org.kie.kogito.research.application.api.Context;
-import org.kie.kogito.research.application.api.Event;
-import org.kie.kogito.research.application.api.MessageBus;
+import org.kie.kogito.research.application.api.UnitId;
 import org.kie.kogito.research.application.api.impl.AbstractUnit;
-import org.kie.kogito.research.application.api.impl.LambdaMessageBus;
-import org.kie.kogito.research.processes.api.*;
+import org.kie.kogito.research.application.core.SimpleUnitInstanceId;
 import org.kie.kogito.research.processes.api.Process;
+import org.kie.kogito.research.processes.api.ProcessContainer;
+import org.kie.kogito.research.processes.api.ProcessInstance;
 
-public class ProcessImpl extends AbstractUnit<ProcessId, ProcessInstance> implements Process {
-    private final MessageBus<ProcessEvent> messageBus;
+public class ProcessImpl extends AbstractUnit implements Process {
 
-    public ProcessImpl(ProcessContainer container, ProcessId id) {
+    public ProcessImpl(ProcessContainer container, UnitId id) {
         super(container, id);
-        this.messageBus = new LambdaMessageBus<>(this::send);
     }
 
-    public ProcessImpl(ProcessContainerImpl processContainer, SimpleProcessId id, MessageBus<ProcessEvent> messageBus) {
+    public ProcessImpl(ProcessContainerImpl processContainer, UnitId id) {
         super(processContainer, id);
-        this.messageBus = messageBus;
-    }
-
-    @Override
-    public MessageBus<? extends Event> messageBus() {
-        return this.messageBus;
     }
 
     @Override
     public ProcessInstance createInstance(Context ctx) {
-        var id = SimpleProcessInstanceId.create();
-        return register(new ProcessInstanceImpl(id, this, ctx));
+        var id = SimpleUnitInstanceId.create();
+        return (ProcessInstance) register(new ProcessInstanceImpl(id, this, ctx));
     }
 }

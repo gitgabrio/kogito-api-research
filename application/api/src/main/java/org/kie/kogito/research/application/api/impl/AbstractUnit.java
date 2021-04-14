@@ -5,13 +5,13 @@ import java.util.Map;
 
 import org.kie.kogito.research.application.api.*;
 
-public abstract class AbstractUnit<I extends UnitId, U extends UnitInstance> implements Unit {
+public abstract class AbstractUnit implements Unit {
 
     private final UnitContainer container;
-    private final I id;
-    private final Map<UnitInstanceId, U> instances = new HashMap<>();
+    private final UnitId id;
+    private final Map<UnitInstanceId, UnitInstance> instances = new HashMap<>();
 
-    public AbstractUnit(UnitContainer container, I id) {
+    public AbstractUnit(UnitContainer container, UnitId id) {
         this.container = container;
         this.id = id;
     }
@@ -22,28 +22,13 @@ public abstract class AbstractUnit<I extends UnitId, U extends UnitInstance> imp
     }
 
     @Override
-    public I id() {
+    public UnitId id() {
         return id;
     }
 
-    protected U register(U instance) {
+    protected UnitInstance register(UnitInstance instance) {
         instances.put(instance.id(), instance);
         return instance;
     }
 
-    @Override
-    public MessageBus<? extends Event> messageBus() {
-        return this::send;
-    }
-
-    public void send(Event event) {
-        for (UnitInstance instance : instances.values()) {
-            if (event.targetId() == null ||
-                    event.targetId().equals(this.id()) ||
-                    event.targetId() instanceof UnitInstanceId) {
-                MessageBus<Event> messageBus = (MessageBus<Event>) instance.messageBus();
-                messageBus.send(event);
-            }
-        }
-    }
 }

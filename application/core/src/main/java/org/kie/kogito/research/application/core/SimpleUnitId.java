@@ -1,17 +1,17 @@
-package org.kie.kogito.research.processes.core.impl;
+package org.kie.kogito.research.application.core;
 
-import org.kie.kogito.research.processes.api.ProcessId;
+import org.kie.kogito.research.application.api.UnitId;
 
 import java.util.Objects;
 
-public class SimpleProcessId implements ProcessId {
+public class SimpleUnitId implements UnitId {
     private final String value;
 
-    public static SimpleProcessId fromString(String id) {
-        return new SimpleProcessId(id);
+    public static SimpleUnitId fromString(String id) {
+        return new SimpleUnitId(id);
     }
 
-    private SimpleProcessId(String value) {
+    private SimpleUnitId(String value) {
         this.value = value;
     }
 
@@ -23,7 +23,7 @@ public class SimpleProcessId implements ProcessId {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SimpleProcessId that = (SimpleProcessId) o;
+        SimpleUnitId that = (SimpleUnitId) o;
         return Objects.equals(value, that.value);
     }
 
