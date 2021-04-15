@@ -85,31 +85,30 @@ public class ProcessApiTest {
 
         // completeTask
         {
+            // policies
             processContainer.get(processId)
                     .instances()
                     .get(instanceId)
                     .tasks()
                     .get(taskInstanceId)// note: should be taskId !
-                    .complete(
-                            new OutputModel(),
-                            Policies.of("user", List.of("some-group")));
+                    .complete(new OutputModel());
         }
 
 
         // saveTask
         {
+            // policies
             processContainer.get(processId)
                     .instances()
                     .get(instanceId)
                     .tasks()
                     .get(taskInstanceId)// note: should be taskId !
-                    .save(
-                            new OutputModel(),
-                            Policies.of("user", List.of("some-group")));
+                    .save(new OutputModel());
         }
 
         // taskTransition
         {
+            // policies
             processContainer.get(processId)
                     .instances()
                     .get(instanceId)
@@ -117,8 +116,7 @@ public class ProcessApiTest {
                     .get(taskInstanceId)// note: should be taskId !
                     .transition(
                             new OutputModel(),
-                            "some-phase",
-                            Policies.of("user", List.of("some-group")));
+                            "some-phase");
         }
 
         // getTask
@@ -130,12 +128,15 @@ public class ProcessApiTest {
                 .context(OutputModel.class);
 
         // abortTask
-        processContainer.get(processId)
-                .instances()
-                .get(instanceId)
-                .tasks()
-                .get(taskInstanceId)// note: should be taskId !
-                .abort("some-phase", Policies.of("some-user", List.of("some-groups")));
+        {
+            // policies
+            processContainer.get(processId)
+                    .instances()
+                    .get(instanceId)
+                    .tasks()
+                    .get(taskInstanceId)// note: should be taskId !
+                    .abort("some-phase");
+        }
 
         // -------------- comments --------------
 

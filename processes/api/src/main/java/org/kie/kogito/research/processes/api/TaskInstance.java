@@ -7,15 +7,15 @@ import org.kie.kogito.research.application.api.UnitInstance;
 public interface TaskInstance extends UnitInstance {
     Task unit();
 
-    void save(Context ctx, Policies user);
+    void save(Context ctx);
 
-    void complete(Context ctx, Policies policies);
+    void complete(Context ctx);
 
     void send(Event event);
 
-    void transition(Context ctx, String phase, Policies policies);
+    void transition(Context ctx, String phase);
 
-    void abort(String phase, Policies policy);
+    void abort(String phase);
 
     <T extends TaskInstance> T as(Class<T> cls);
 }
