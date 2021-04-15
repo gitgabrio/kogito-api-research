@@ -27,7 +27,8 @@ public class ProcessApiTest {
             processContainer
                     .get(processId)
                     .instances()
-                    .start(new Person(/* ... */) /*, from? */);
+                    .create(new Person())
+                    .start();
         }
 
         // getProcessInstanceOutput + findById

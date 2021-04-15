@@ -18,4 +18,6 @@ public interface ProcessInstance extends UnitInstance {
     <T extends Context> T update(T context);
 
     void send(Event signalEvent);
+
+    void start();
 }
