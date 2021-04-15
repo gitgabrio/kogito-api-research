@@ -5,6 +5,5 @@ import org.kie.kogito.research.application.api.UnitId;
 
 public interface ProcessContainer extends UnitContainer {
 
-    @Override
-    Process get(UnitId unitId);
+    @Override Process get(UnitId unitId);
 }

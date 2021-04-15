@@ -4,4 +4,7 @@ public interface UnitInstance {
     UnitInstanceId id();
     Unit unit();
     <T extends Context> T context(Class<T> cls);
+
+    void start();
+    void complete();
 }
