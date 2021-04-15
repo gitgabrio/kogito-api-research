@@ -1,10 +1,12 @@
 package org.kie.kogito.research.processes.core.impl;
 
 import org.junit.jupiter.api.Test;
-import org.kie.kogito.research.application.api.Context;
+import org.kie.kogito.research.application.api.*;
 import org.kie.kogito.research.application.core.SimpleUnitId;
 import org.kie.kogito.research.application.core.SimpleUnitInstanceId;
-import org.kie.kogito.research.processes.api.*;
+import org.kie.kogito.research.application.core.UriUnitId;
+import org.kie.kogito.research.processes.api.Process;
+import org.kie.kogito.research.processes.api.ProcessInstance;
 
 import java.util.List;
 
@@ -15,20 +17,26 @@ public class ProcessApiTest {
 
     @Test
     void test() {
-        var processId = SimpleUnitId.fromString("my-process-id");
-        var instanceId = SimpleUnitInstanceId.fromString("some-instance-id");
+        UnitInstanceId instanceId;
+        UnitInstanceId taskInstanceId;
 
-        ProcessContainer processContainer =
-                new ProcessContainerImpl(null);
-        var taskInstanceId = SimpleUnitInstanceId.fromString("task-def");
+        Application app = new TestApp();
+        var processContainer = app.get(Process.class);
+
+        var pc = (ProcessContainerImpl) processContainer;
+        var processId = new UriUnitId(pc.id(), "my-process-id");
+        pc.register(List.of(new ProcessImpl(pc, processId)));
 
         // createProcessInstance
         {
-            processContainer
+            var processInstance = processContainer
                     .get(processId)
                     .instances()
-                    .create(new Person())
-                    .start();
+                    .create(new Person());
+            instanceId = processInstance.id();
+            taskInstanceId = new UriUnitId(instanceId, "some-task");
+
+            processInstance.start();
         }
 
         // getProcessInstanceOutput + findById
@@ -160,7 +168,7 @@ public class ProcessApiTest {
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .comments()
-                .update(new HumanTaskComment("id", "info..."));
+                .update(new HumanTaskComment(taskInstanceId,"id", "info..."));
 
         // delete comment
         processContainer.get(processId)
@@ -232,7 +240,7 @@ public class ProcessApiTest {
                 .tasks()
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
-                .comments()
+                .attachments()
                 .get("some-id");
 
         // getAttachments

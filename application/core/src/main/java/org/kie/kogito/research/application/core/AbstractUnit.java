@@ -1,4 +1,4 @@
-package org.kie.kogito.research.application.api.impl;
+package org.kie.kogito.research.application.core;
 
 import java.util.HashMap;
 import java.util.Map;

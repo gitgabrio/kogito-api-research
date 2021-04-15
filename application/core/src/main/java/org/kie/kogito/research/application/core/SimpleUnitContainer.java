@@ -1,16 +1,18 @@
-package org.kie.kogito.research.application.api.impl;
+package org.kie.kogito.research.application.core;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.kie.kogito.research.application.api.*;
 
-public class AbstractUnitContainer<U extends Unit> implements UnitContainer {
+public class SimpleUnitContainer<U extends Unit> implements UnitContainer<U> {
     private final Map<UnitId, U> units = new HashMap<>();
     private final Application application;
+    private final Id id;
 
-    public AbstractUnitContainer(Application application) {
+    public SimpleUnitContainer(Application application, String name) {
         this.application = application;
+        this.id = new UriUnitId(application.id(), name);
     }
 
     protected <T extends U> T register(T unit) {
@@ -26,6 +28,11 @@ public class AbstractUnitContainer<U extends Unit> implements UnitContainer {
     @Override
     public U get(UnitId unitId) {
         return units.get(unitId);
+    }
+
+    @Override
+    public Id id() {
+        return id;
     }
 
 }

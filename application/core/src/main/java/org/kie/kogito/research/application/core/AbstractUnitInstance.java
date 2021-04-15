@@ -1,4 +1,4 @@
-package org.kie.kogito.research.application.api.impl;
+package org.kie.kogito.research.application.core;
 
 import org.kie.kogito.research.application.api.*;
 
@@ -24,9 +24,8 @@ public abstract class AbstractUnitInstance implements UnitInstance {
         return unit;
     }
 
-    @Override
-    public Context context() {
-        return context;
+    public <T extends Context> T context(Class<T> cls) {
+        return null;// cls.cast(context); // should remap if they don't match!
     }
 
 }

@@ -5,5 +5,5 @@ public interface UnitInstanceContainer<T extends UnitInstance> {
 
     T create(Context ctx);
 
-    T start();
+    Id id();
 }
