@@ -4,10 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.kie.kogito.research.application.api.Application;
 import org.kie.kogito.research.application.api.Context;
 import org.kie.kogito.research.application.api.Id;
+import org.kie.kogito.research.application.core.SimpleUnitContainer;
 import org.kie.kogito.research.application.core.UriUnitId;
 import org.kie.kogito.research.processes.api.Process;
-
-import java.util.List;
 
 public class ProcessApiTest {
 
@@ -22,9 +21,9 @@ public class ProcessApiTest {
         Application app = new TestApp();
         var processContainer = app.get(Process.class);
 
-        var pc = (ProcessContainerImpl) processContainer;
+        var pc = (SimpleUnitContainer<Process>) processContainer;
         var processId = new UriUnitId(pc.id(), "my-process-id");
-        pc.register(List.of(new ProcessImpl(pc, processId)));
+        pc.register(new ProcessImpl(processId));
 
         // createProcessInstance
         {
@@ -273,8 +272,8 @@ public class ProcessApiTest {
                 .instances()
                 .get(instanceId)
                 .get(TaskInstanceContainer.class)
-                .get(taskInstanceId)
-                .unit();  // asJsonSchema() ??
+                .get(taskInstanceId);
+//                .unit();  // asJsonSchema() ??
 
 
 

@@ -18,12 +18,12 @@ public abstract class AbstractApplication implements Application {
 
     private final Map<Class<?>, UnitContainer<?>> containers = new HashMap<>();
 
-    protected <U extends Unit, T extends UnitContainer<U>> void register(Class<U> cls, T container) {
+    protected <U extends Unit<U>, T extends UnitContainer<U>> void register(Class<U> cls, T container) {
         containers.put(cls, container);
     }
 
     @Override
-    public <T extends Unit> UnitContainer<T> get(Class<T> ctr) {
+    public <T extends Unit<T>> UnitContainer<T> get(Class<T> ctr) {
         return (UnitContainer<T>) containers.get(ctr);
     }
 }

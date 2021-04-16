@@ -9,7 +9,7 @@ public class HumanTaskComment implements Addressable {
     private final String info;
 
     public HumanTaskComment(Id parentId, String id, String info) {
-        this.id = new UriUnitId( parentId, id);
+        this.id = new UriUnitId(parentId, id);
         this.info = info;
     }
 

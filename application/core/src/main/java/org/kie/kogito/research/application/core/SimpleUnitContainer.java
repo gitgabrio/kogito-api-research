@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.kie.kogito.research.application.api.*;
 
-public class SimpleUnitContainer<U extends Unit> implements UnitContainer<U> {
+public class SimpleUnitContainer<U extends Unit<U>> implements UnitContainer<U> {
     private final Map<Id, U> units = new HashMap<>();
     private final Application application;
     private final Id id;
@@ -15,7 +15,8 @@ public class SimpleUnitContainer<U extends Unit> implements UnitContainer<U> {
         this.id = new UriUnitId(application.id(), name);
     }
 
-    protected <T extends U> T register(T unit) {
+    // only for testing
+    public <T extends U> T register(T unit) {
         units.put(unit.id(), unit);
         return unit;
     }
@@ -26,7 +27,7 @@ public class SimpleUnitContainer<U extends Unit> implements UnitContainer<U> {
     }
 
     @Override
-    public U get(UnitId unitId) {
+    public U get(Id unitId) {
         return units.get(unitId);
     }
 

@@ -7,7 +7,7 @@ import org.kie.kogito.research.application.core.AbstractUnitInstance;
 import org.kie.kogito.research.processes.api.Task;
 import org.kie.kogito.research.processes.api.TaskInstance;
 
-public class HumanTaskInstance extends AbstractUnitInstance<Task> implements TaskInstance  {
+public class HumanTaskInstance extends AbstractUnitInstance<Task> implements TaskInstance {
 
     public HumanTaskInstance(Id parentId) {
         super(parentId);
@@ -16,18 +16,13 @@ public class HumanTaskInstance extends AbstractUnitInstance<Task> implements Tas
     }
 
     @Override
-    public Task unit() {
-        return null;
-    }
-
-    @Override
     public void save(Context ctx) {
-        System.out.println("SAVE: "+id());
+        System.out.println("SAVE: " + id());
     }
 
     @Override
     public void complete(Context ctx) {
-        System.out.println("COMPLETE: "+id());
+        System.out.println("COMPLETE: " + id());
 
     }
 
@@ -42,34 +37,16 @@ public class HumanTaskInstance extends AbstractUnitInstance<Task> implements Tas
 
     }
 
-    public void start() {
-        System.out.printf("START: %s\n", id());
-
-    }
-
-    public void complete() {
-        System.out.printf("COMPLETE: %s\n", id());
-
-    }
-
-    public void abort() {
-
-    }
-
-    public <T extends Context> T update(T ctx) {
-        return null;
-    }
-
 
     @Override
     public void transition(Context ctx, String phase) {
-        System.out.println("TRANSITION: "+id());
+        System.out.println("TRANSITION: " + id());
 
     }
 
     @Override
     public void abort(String phase) {
-        System.out.println("ABORT: "+id());
+        System.out.println("ABORT: " + id());
 
     }
 

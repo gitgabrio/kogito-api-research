@@ -8,14 +8,12 @@ import org.kie.kogito.research.processes.api.ProcessInstance;
 
 public class ProcessImpl extends AbstractUnit<Process> implements Process {
 
-    UnitInstanceContainer<Process, ProcessInstance> container = new ProcessInstanceContainer(this.id());
-
-    public ProcessImpl(ProcessContainerImpl processContainer, UnitId id) {
-        super(processContainer, id);
+    public ProcessImpl(UnitId id) {
+        super(new ProcessInstanceContainer(id), id);
     }
 
     @Override
     public UnitInstanceContainer<Process, ProcessInstance> instances() {
-        return container;
+        return (UnitInstanceContainer<Process, ProcessInstance>) super.instances();
     }
 }

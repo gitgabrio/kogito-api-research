@@ -2,8 +2,6 @@ package org.kie.kogito.research.processes.core.impl;
 
 import org.kie.kogito.research.application.api.Context;
 import org.kie.kogito.research.application.api.Id;
-import org.kie.kogito.research.application.api.Instance;
-import org.kie.kogito.research.application.api.UnitInstanceId;
 import org.kie.kogito.research.application.core.AbstractUnitInstanceContainer;
 import org.kie.kogito.research.processes.api.Task;
 import org.kie.kogito.research.processes.api.TaskInstance;

@@ -5,7 +5,6 @@ import org.kie.kogito.research.application.api.Event;
 import org.kie.kogito.research.application.api.Instance;
 
 public interface TaskInstance extends Instance<Task> {
-    Task unit();
 
     void save(Context ctx);
 
