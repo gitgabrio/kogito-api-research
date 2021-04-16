@@ -5,6 +5,7 @@ import org.kie.kogito.research.application.api.*;
 import org.kie.kogito.research.application.core.SimpleUnitId;
 import org.kie.kogito.research.application.core.SimpleUnitInstanceId;
 import org.kie.kogito.research.application.core.UriUnitId;
+import org.kie.kogito.research.processes.api.Policies;
 import org.kie.kogito.research.processes.api.Process;
 import org.kie.kogito.research.processes.api.ProcessInstance;
 
