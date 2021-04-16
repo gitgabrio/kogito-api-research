@@ -8,16 +8,16 @@ import org.kie.kogito.research.application.api.*;
 public abstract class AbstractUnit<U extends Unit<U>, T extends Instance<U>> implements Unit<U> {
 
     private final UnitInstanceContainer<U, ? extends Instance<U>> container;
-    private final UnitId id;
+    private final Id id;
     private final Map<Id, Instance<U>> instances = new HashMap<>();
 
-    public AbstractUnit(UnitInstanceContainer<U, ? extends Instance<U>> container, UnitId id) {
+    public AbstractUnit(UnitInstanceContainer<U, ? extends Instance<U>> container, Id id) {
         this.container = container;
         this.id = id;
     }
 
     @Override
-    public UnitId id() {
+    public Id id() {
         return id;
     }
 

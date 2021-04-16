@@ -1,12 +1,12 @@
 package org.kie.kogito.research.processes.api;
 
 import org.kie.kogito.research.application.api.AddressableContainer;
-import org.kie.kogito.research.application.api.Id;
+import org.kie.kogito.research.application.api.RelativeId;
 
 public interface HumanTaskAttachmentContainer extends AddressableContainer<HumanTaskAttachment> {
     void create();
 
-    void update(HumanTaskAttachment humanTaskAttachment);
+    void update(RelativeId id, HumanTaskAttachmentData humanTaskAttachment);
 
-    void delete(Id id);
+    void delete(RelativeId id);
 }

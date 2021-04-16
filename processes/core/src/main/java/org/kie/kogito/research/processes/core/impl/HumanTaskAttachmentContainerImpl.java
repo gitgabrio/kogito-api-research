@@ -1,9 +1,11 @@
 package org.kie.kogito.research.processes.core.impl;
 
 import org.kie.kogito.research.application.api.Id;
+import org.kie.kogito.research.application.api.RelativeId;
 import org.kie.kogito.research.application.core.AbstractAddressableContainer;
 import org.kie.kogito.research.processes.api.HumanTaskAttachment;
 import org.kie.kogito.research.processes.api.HumanTaskAttachmentContainer;
+import org.kie.kogito.research.processes.api.HumanTaskAttachmentData;
 
 public class HumanTaskAttachmentContainerImpl extends AbstractAddressableContainer<HumanTaskAttachment> implements HumanTaskAttachmentContainer {
 
@@ -15,12 +17,12 @@ public class HumanTaskAttachmentContainerImpl extends AbstractAddressableContain
         System.out.println("CREATE: " + this.id());
     }
 
-    public void update(HumanTaskAttachment attachment) {
-        System.out.println("UPDATE: " + attachment.id());
+    public void update(RelativeId id, HumanTaskAttachmentData data) {
+        System.out.println("UPDATE: " + id().append(id));
     }
 
-    public void delete(Id id) {
-        System.out.println("DELETE: " + id);
+    public void delete(RelativeId id) {
+        System.out.println("DELETE: " + this.id().append(id));
     }
 
 }

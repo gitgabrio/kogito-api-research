@@ -1,9 +1,11 @@
 package org.kie.kogito.research.processes.core.impl;
 
 import org.kie.kogito.research.application.api.Id;
+import org.kie.kogito.research.application.api.RelativeId;
 import org.kie.kogito.research.application.core.AbstractAddressableContainer;
 import org.kie.kogito.research.processes.api.HumanTaskComment;
 import org.kie.kogito.research.processes.api.HumanTaskCommentContainer;
+import org.kie.kogito.research.processes.api.HumanTaskCommentData;
 
 public class HumanTaskCommentContainerImpl extends AbstractAddressableContainer<HumanTaskComment> implements HumanTaskCommentContainer {
 
@@ -15,12 +17,12 @@ public class HumanTaskCommentContainerImpl extends AbstractAddressableContainer<
         System.out.println("CREATE: " + id());
     }
 
-    public void update(HumanTaskComment comment) {
-        System.out.printf("UPDATE: %s -- %s\n", id(), comment);
+    public void update(RelativeId id, HumanTaskCommentData comment) {
+        System.out.printf("UPDATE: %s -- %s\n", id().append(id), comment);
     }
 
-    public void delete(Id id) {
-        System.out.println("DELETE: " + id);
+    public void delete(RelativeId id) {
+        System.out.println("DELETE: " + this.id().append(id));
     }
 
 }

@@ -6,18 +6,21 @@ import java.util.Map;
 import org.kie.kogito.research.application.api.*;
 
 public class SimpleUnitContainer<U extends Unit<U>> implements UnitContainer<U> {
-    private final Map<Id, U> units = new HashMap<>();
+    private final Map<RelativeId, U> units = new HashMap<>();
     private final Application application;
     private final Id id;
 
-    public SimpleUnitContainer(Application application, String name) {
+    public SimpleUnitContainer(Application application, RelativeId id) {
         this.application = application;
-        this.id = new UriUnitId(application.id(), name);
+        this.id = UriId.of(application.id(), id);
     }
 
     // only for testing
-    public <T extends U> T register(T unit) {
-        units.put(unit.id(), unit);
+    public <T extends U> T register(RelativeId id, T unit) {
+        // needs to ensure the ID prefix == this.ID
+        // ... but we should probably allow for multiple address
+        // => ID maybe should not be an intrinsic property
+        units.put(id, unit);
         return unit;
     }
 
@@ -27,7 +30,7 @@ public class SimpleUnitContainer<U extends Unit<U>> implements UnitContainer<U> 
     }
 
     @Override
-    public U get(Id unitId) {
+    public U get(RelativeId unitId) {
         return units.get(unitId);
     }
 

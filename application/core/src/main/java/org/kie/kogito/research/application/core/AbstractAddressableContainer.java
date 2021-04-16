@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractAddressableContainer<T extends Addressable> implements AddressableContainer<T> {
-    private final Map<Id, T> addressables = new HashMap<>();
+    private final Map<RelativeId, T> addressables = new HashMap<>();
     private final Id id;
 
     public AbstractAddressableContainer(Id parentId, String name) {
-        this.id = new UriUnitId(parentId, name);
+        this.id = new UriId(parentId, name);
     }
 
     @Override
@@ -19,12 +19,12 @@ public abstract class AbstractAddressableContainer<T extends Addressable> implem
     }
 
     protected T register(T addressable) {
-        addressables.put(addressable.id(), addressable);
+        addressables.put(addressable.id().segment(), addressable);
         return addressable;
     }
 
     @Override
-    public T get(Id unitId) {
+    public T get(RelativeId unitId) {
         return addressables.get(unitId);
     }
 

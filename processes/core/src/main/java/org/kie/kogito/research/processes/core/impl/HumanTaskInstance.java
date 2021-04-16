@@ -4,15 +4,18 @@ import org.kie.kogito.research.application.api.Context;
 import org.kie.kogito.research.application.api.Event;
 import org.kie.kogito.research.application.api.Id;
 import org.kie.kogito.research.application.core.AbstractUnitInstance;
+import org.kie.kogito.research.application.core.RelativeUriId;
 import org.kie.kogito.research.processes.api.HumanTaskAttachmentContainer;
 import org.kie.kogito.research.processes.api.HumanTaskCommentContainer;
 import org.kie.kogito.research.processes.api.Task;
 import org.kie.kogito.research.processes.api.TaskInstance;
 
+import java.util.UUID;
+
 public class HumanTaskInstance extends AbstractUnitInstance<Task> implements TaskInstance {
 
     public HumanTaskInstance(Id parentId) {
-        super(parentId);
+        super(parentId.append(RelativeUriId.of(UUID.randomUUID().toString())));
         register(HumanTaskCommentContainer.class, new HumanTaskCommentContainerImpl(id()));
         register(HumanTaskAttachmentContainer.class, new HumanTaskAttachmentContainerImpl(id()));
     }

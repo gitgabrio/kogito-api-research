@@ -1,23 +1,25 @@
 package org.kie.kogito.research.processes.core.impl;
 
 import org.kie.kogito.research.application.api.Id;
-import org.kie.kogito.research.application.core.UriUnitId;
+import org.kie.kogito.research.application.api.RelativeId;
+import org.kie.kogito.research.application.core.UriId;
 import org.kie.kogito.research.processes.api.HumanTaskComment;
+import org.kie.kogito.research.processes.api.HumanTaskCommentData;
 
 public class HumanTaskCommentImpl implements HumanTaskComment {
-    private final UriUnitId id;
-    private final String info;
+    private final Id id;
+    private final HumanTaskCommentDataImpl data;
 
-    public HumanTaskCommentImpl(Id parentId, String id, String info) {
-        this.id = new UriUnitId(parentId, id);
-        this.info = info;
+    public HumanTaskCommentImpl(Id parent, RelativeId id, String data) {
+        this.id = UriId.of(parent, id);
+        this.data = new HumanTaskCommentDataImpl(data);
     }
 
     public Id id() {
         return id;
     }
 
-    public String info() {
-        return info;
+    public HumanTaskCommentData data() {
+        return data;
     }
 }
