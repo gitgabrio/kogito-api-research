@@ -13,4 +13,10 @@ public class HumanTaskCommentDataImpl implements HumanTaskCommentData {
         return data;
     }
 
+    @Override
+    public String toString() {
+        return "HumanTaskCommentDataImpl{" +
+                "data='" + data + '\'' +
+                '}';
+    }
 }

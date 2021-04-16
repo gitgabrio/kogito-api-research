@@ -15,8 +15,9 @@ public class HumanTaskAttachmentContainerImpl extends AbstractAddressableFactory
     }
 
     public HumanTaskAttachment create0(HumanTaskAttachmentData attachmentData) {
-        System.out.println("CREATE: " + this.id());
-        return new HumanTaskAttachmentImpl(id().append(RelativeUriId.random()), attachmentData);
+        var id = id().append(RelativeUriId.random());
+        System.out.printf("CREATE: %s -- %s\n", id, attachmentData);
+        return new HumanTaskAttachmentImpl(id, attachmentData);
     }
 
     @Override

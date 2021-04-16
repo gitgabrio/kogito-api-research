@@ -13,4 +13,11 @@ public class HumanTaskAttachmentDataImpl implements HumanTaskAttachmentData {
     public String data() {
         return data;
     }
+
+    @Override
+    public String toString() {
+        return "HumanTaskAttachmentDataImpl{" +
+                "data='" + data + '\'' +
+                '}';
+    }
 }

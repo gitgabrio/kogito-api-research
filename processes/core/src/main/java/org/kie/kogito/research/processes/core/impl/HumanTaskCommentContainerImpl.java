@@ -16,6 +16,8 @@ public class HumanTaskCommentContainerImpl extends AbstractAddressableFactory<Hu
 
     @Override
     public HumanTaskComment create0(HumanTaskCommentData ctx) {
+        var id = id().append(RelativeUriId.random());
+        System.out.printf("CREATE: %s -- %s\n", id, ctx);
         return new HumanTaskCommentImpl(id(), RelativeUriId.random(), ctx);
     }
 
