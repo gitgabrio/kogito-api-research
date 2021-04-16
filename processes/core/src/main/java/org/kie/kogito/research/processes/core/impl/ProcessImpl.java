@@ -5,11 +5,10 @@ import org.kie.kogito.research.application.api.UnitId;
 import org.kie.kogito.research.application.api.UnitInstanceContainer;
 import org.kie.kogito.research.application.core.AbstractUnit;
 import org.kie.kogito.research.processes.api.Process;
-import org.kie.kogito.research.processes.api.ProcessInstance;
 
 public class ProcessImpl extends AbstractUnit implements Process {
 
-    UnitInstanceContainer<ProcessInstance> container = new ProcessInstanceContainer(this.id());
+    UnitInstanceContainer<Process> container = new ProcessInstanceContainer(this.id());
 
     public ProcessImpl(UnitContainer<Process> container, UnitId id) {
         super(container, id);
@@ -20,7 +19,7 @@ public class ProcessImpl extends AbstractUnit implements Process {
     }
 
     @Override
-    public UnitInstanceContainer<ProcessInstance> instances() {
+    public UnitInstanceContainer<Process> instances() {
         return container;
     }
 }

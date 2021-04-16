@@ -11,10 +11,13 @@ import org.kie.kogito.research.processes.api.TaskInstance;
 
 import java.util.UUID;
 
-public class ProcessInstanceImpl extends AbstractUnitInstance implements ProcessInstance {
+public class ProcessInstanceImpl extends AbstractUnitInstance<Process> implements ProcessInstance {
+    TaskInstanceContainer taskInstanceContainer;
 
     public ProcessInstanceImpl(UnitInstanceId id, Process unit, Context context) {
         super(id, unit, context);
+        taskInstanceContainer = new TaskInstanceContainer(id());
+        register(TaskInstanceContainer.class, taskInstanceContainer);
     }
 
     @Override
@@ -23,36 +26,24 @@ public class ProcessInstanceImpl extends AbstractUnitInstance implements Process
     }
 
     @Override
-    public UnitInstanceContainer<TaskInstance> tasks() {
-        return new AbstractUnitInstanceContainer<TaskInstance>(this.id(), "tasks") {
-
-            @Override
-            public TaskInstance get(UnitInstanceId unitId) {
-                // recreate just for mock
-                return create(null);
-            }
-
-            @Override
-            public TaskInstance create(Context ctx) {
-                return new HumanTaskInstance(this.id());
-            }
-        };
+    public TaskInstanceContainer tasks() {
+        return taskInstanceContainer;
     }
 
     @Override
     public <T extends Context> T variables(Class<T> cls) {
-        System.out.println("VARIABLES: "+ id());
+        System.out.println("VARIABLES: " + id());
         return null;
     }
 
     @Override
     public void start() {
-        System.out.println("START: "+id());
+        System.out.println("START: " + id());
     }
 
     @Override
     public void abort() {
-        System.out.println("ABORT: "+id());
+        System.out.println("ABORT: " + id());
     }
 
     @Override

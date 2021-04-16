@@ -2,30 +2,43 @@ package org.kie.kogito.research.application.core;
 
 import org.kie.kogito.research.application.api.*;
 
-public abstract class AbstractUnitInstance implements UnitInstance {
+import java.util.HashMap;
+import java.util.Map;
 
-    private final UnitInstanceId id;
-    private final Unit unit;
+public abstract class AbstractUnitInstance<T extends Unit> implements Instance<T> {
+
+    private final Id id;
+    private final T unit;
     private final Context context;
+    private final Map<Class<?>, UnitInstanceContainer<?>> containers;
 
-    public AbstractUnitInstance(UnitInstanceId id, Unit unit, Context context) {
+    public AbstractUnitInstance(Id id, T unit, Context context) {
         this.id = id;
         this.unit = unit;
         this.context = context;
+        this.containers = new HashMap<>();
     }
 
     @Override
-    public UnitInstanceId id() {
+    public Id id() {
         return id;
     }
 
     @Override
-    public Unit unit() {
+    public T unit() {
         return unit;
     }
 
     public <T extends Context> T context(Class<T> cls) {
-        return null;// cls.cast(context); // should remap if they don't match!
+        return null; //cls.cast(context); // should remap if they don't match!
     }
 
+    protected final <U extends Unit, C extends UnitInstanceContainer<U>> void register(Class<C> cls, C ctr) {
+        containers.put(cls, ctr);
+    }
+
+    @Override
+    public <U extends Unit, C extends UnitInstanceContainer<U>> C get(Class<C> cls) {
+        return (C) containers.get(cls);
+    }
 }

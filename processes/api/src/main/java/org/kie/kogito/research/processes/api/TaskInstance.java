@@ -2,9 +2,9 @@ package org.kie.kogito.research.processes.api;
 
 import org.kie.kogito.research.application.api.Context;
 import org.kie.kogito.research.application.api.Event;
-import org.kie.kogito.research.application.api.UnitInstance;
+import org.kie.kogito.research.application.api.Instance;
 
-public interface TaskInstance extends UnitInstance {
+public interface TaskInstance extends Instance<Task> {
     Task unit();
 
     void save(Context ctx);
@@ -17,5 +17,4 @@ public interface TaskInstance extends UnitInstance {
 
     void abort(String phase);
 
-    <T extends TaskInstance> T as(Class<T> cls);
 }

@@ -1,25 +1,17 @@
 package org.kie.kogito.research.processes.core.impl;
 
-import org.kie.kogito.research.application.api.Context;
-import org.kie.kogito.research.application.api.Event;
-import org.kie.kogito.research.application.api.Id;
-import org.kie.kogito.research.application.api.UnitInstanceId;
+import org.kie.kogito.research.application.api.*;
+import org.kie.kogito.research.application.core.AbstractUnitInstance;
 import org.kie.kogito.research.application.core.UriUnitId;
 import org.kie.kogito.research.processes.api.Task;
 import org.kie.kogito.research.processes.api.TaskInstance;
 
 import java.util.UUID;
 
-public class HumanTaskInstance implements TaskInstance {
-    private final UriUnitId id;
+public class HumanTaskInstance extends AbstractUnitInstance<Task> implements TaskInstance  {
 
     public HumanTaskInstance(Id parentId) {
-        this.id = new UriUnitId(parentId, UUID.randomUUID().toString());
-    }
-
-    @Override
-    public UnitInstanceId id() {
-        return id;
+        super(parentId, null, null);
     }
 
     @Override
@@ -61,7 +53,15 @@ public class HumanTaskInstance implements TaskInstance {
 
     }
 
+    @Override
+    public void abort() {
 
+    }
+
+    @Override
+    public <T extends Context> T update(T ctx) {
+        return null;
+    }
 
 
     @Override
@@ -74,11 +74,6 @@ public class HumanTaskInstance implements TaskInstance {
     public void abort(String phase) {
         System.out.println("ABORT: "+id());
 
-    }
-
-    @Override
-    public <T extends TaskInstance> T as(Class<T> cls) {
-        return cls.cast(this);
     }
 
     public HumanTaskCommentContainer comments() {

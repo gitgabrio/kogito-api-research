@@ -1,11 +1,8 @@
 package org.kie.kogito.research.processes.api;
 
-import org.kie.kogito.research.application.api.Context;
-import org.kie.kogito.research.application.api.Event;
-import org.kie.kogito.research.application.api.UnitInstance;
-import org.kie.kogito.research.application.api.UnitInstanceContainer;
+import org.kie.kogito.research.application.api.*;
 
-public interface ProcessInstance extends UnitInstance {
+public interface ProcessInstance extends Instance<Process> {
     Process unit();
 
     // context
@@ -14,7 +11,7 @@ public interface ProcessInstance extends UnitInstance {
     // instead of tasks() ?
     // <T extends UnitInstance> UnitInstanceContainer<T> get(Class<T> container);
 
-    UnitInstanceContainer<TaskInstance> tasks();
+    UnitInstanceContainer<Task> tasks();
 
     void start();
 

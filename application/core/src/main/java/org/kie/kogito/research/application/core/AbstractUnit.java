@@ -9,7 +9,7 @@ public abstract class AbstractUnit implements Unit {
 
     private final UnitContainer container;
     private final UnitId id;
-    private final Map<UnitInstanceId, UnitInstance> instances = new HashMap<>();
+    private final Map<Id, UnitInstance> instances = new HashMap<>();
 
     public AbstractUnit(UnitContainer container, UnitId id) {
         this.container = container;
