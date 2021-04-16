@@ -11,7 +11,7 @@ public interface ProcessInstance extends Instance<Process> {
     // instead of tasks() ?
     // <T extends UnitInstance> UnitInstanceContainer<T> get(Class<T> container);
 
-    UnitInstanceContainer<Task> tasks();
+    UnitInstanceContainer<Task, TaskInstance> tasks();
 
     void start();
 

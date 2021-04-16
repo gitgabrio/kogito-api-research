@@ -5,12 +5,12 @@ import org.kie.kogito.research.application.api.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractUnitInstance<T extends Unit> implements Instance<T> {
+public abstract class AbstractUnitInstance<T extends Unit<T>> implements Instance<T> {
 
     private final Id id;
     private final T unit;
     private final Context context;
-    private final Map<Class<?>, UnitInstanceContainer<?>> containers;
+    private final Map<Class<?>, UnitInstanceContainer<?,?>> containers;
 
     public AbstractUnitInstance(Id id, T unit, Context context) {
         this.id = id;
@@ -33,12 +33,12 @@ public abstract class AbstractUnitInstance<T extends Unit> implements Instance<T
         return null; //cls.cast(context); // should remap if they don't match!
     }
 
-    protected final <U extends Unit, C extends UnitInstanceContainer<U>> void register(Class<C> cls, C ctr) {
+    protected final <U extends Unit<U>, C extends UnitInstanceContainer<U, ? extends Instance<U>>> void register(Class<C> cls, C ctr) {
         containers.put(cls, ctr);
     }
 
     @Override
-    public <U extends Unit, C extends UnitInstanceContainer<U>> C get(Class<C> cls) {
+    public <U extends Unit<U>, C extends UnitInstanceContainer<U, ? extends Instance<U>>> C get(Class<C> cls) {
         return (C) containers.get(cls);
     }
 }

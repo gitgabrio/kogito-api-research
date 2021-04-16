@@ -5,28 +5,28 @@ import org.kie.kogito.research.application.api.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractUnitInstanceContainer<U extends Unit> implements UnitInstanceContainer<U> {
-    private final Map<Id, Instance<U>> units = new HashMap<>();
+public abstract class AbstractUnitInstanceContainer<U extends Unit, I extends Instance<U>> implements UnitInstanceContainer<U, I> {
+    private final Map<Id, I> units = new HashMap<>();
     private final Id id;
 
     public AbstractUnitInstanceContainer(Id parentId, String name) {
         this.id = new UriUnitId(parentId, name);
     }
 
-    protected <T extends Instance<U>> T register(T unitInstance) {
+    protected I register(I unitInstance) {
         units.put(unitInstance.id(), unitInstance);
         return unitInstance;
     }
 
     @Override
-    public Instance<U> create(Context ctx) {
+    public I create(Context ctx) {
         return register(create0(ctx));
     }
 
-    public abstract Instance<U> create0(Context ctx);
+    public abstract I create0(Context ctx);
 
     @Override
-    public Instance<U> get(Id unitId) {
+    public I get(Id unitId) {
         return units.get(unitId);
     }
 

@@ -1,7 +1,7 @@
 package org.kie.kogito.research.application.api;
 
-public interface UnitInstanceContainer<T extends Unit> {
+public interface UnitInstanceContainer<T extends Unit, I extends Instance<T>> {
     Id id();
-    Instance<T> get(Id instanceId);
-    Instance<T> create(Context ctx);
+    I get(Id instanceId);
+    I create(Context ctx);
 }

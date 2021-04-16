@@ -8,7 +8,7 @@ import org.kie.kogito.research.application.core.AbstractUnitInstanceContainer;
 import org.kie.kogito.research.processes.api.Task;
 import org.kie.kogito.research.processes.api.TaskInstance;
 
-public class TaskInstanceContainer extends AbstractUnitInstanceContainer<Task> {
+public class TaskInstanceContainer extends AbstractUnitInstanceContainer<Task, TaskInstance> {
 
     public TaskInstanceContainer(Id parentId) {
         super(parentId, "tasks");

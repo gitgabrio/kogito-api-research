@@ -5,7 +5,7 @@ public interface Instance<T extends Unit> {
     T unit();
     <C extends Context> C context(Class<C> cls);
 
-    <U extends Unit, C extends UnitInstanceContainer<U>> C get(Class<C> cls);
+    <U extends Unit<U>, C extends UnitInstanceContainer<U, ? extends Instance<U>>> C get(Class<C> cls);
 
     void start();
     void complete();

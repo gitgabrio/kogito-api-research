@@ -9,7 +9,7 @@ import org.kie.kogito.research.processes.api.ProcessInstance;
 
 import java.util.UUID;
 
-public class ProcessInstanceContainer extends AbstractUnitInstanceContainer<Process> {
+public class ProcessInstanceContainer extends AbstractUnitInstanceContainer<Process, ProcessInstance> {
 
     public ProcessInstanceContainer(Id parentId) {
         super(parentId, "instances");
