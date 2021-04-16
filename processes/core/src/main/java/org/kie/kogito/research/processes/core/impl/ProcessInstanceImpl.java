@@ -1,22 +1,22 @@
 package org.kie.kogito.research.processes.core.impl;
 
-import org.kie.kogito.research.application.api.Context;
-import org.kie.kogito.research.application.api.Event;
-import org.kie.kogito.research.application.api.Id;
+import org.kie.kogito.research.application.api.*;
 import org.kie.kogito.research.application.core.AbstractUnitInstance;
 import org.kie.kogito.research.processes.api.Process;
 import org.kie.kogito.research.processes.api.ProcessInstance;
+import org.kie.kogito.research.processes.api.Task;
+import org.kie.kogito.research.processes.api.TaskInstance;
 
 public class ProcessInstanceImpl extends AbstractUnitInstance<Process> implements ProcessInstance {
 
     public ProcessInstanceImpl(Id id) {
         super(id);
-        register(TaskInstanceContainer.class, new TaskInstanceContainer(id()));
+        register(TaskInstance.class, new TaskInstanceContainer(id()));
     }
 
     @Override
-    public TaskInstanceContainer tasks() {
-        return get(TaskInstanceContainer.class);
+    public UnitInstanceContainer<TaskInstance> tasks() {
+        return get(TaskInstance.class);
     }
 
     @Override

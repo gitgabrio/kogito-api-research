@@ -25,12 +25,12 @@ public abstract class AbstractUnitInstance<T extends Unit<T>> implements Instanc
     }
 
 //    protected final <U extends Unit<U>, C extends UnitInstanceContainer<U, ? extends Instance<U>>> void register(Class<C> cls, C ctr) {
-    protected final <U extends Addressable, C extends AddressableContainer<U>> void register(Class<C> cls, C ctr) {
+    protected final <U extends Addressable, C extends AddressableContainer<U>> void register(Class<U> cls, C ctr) {
         containers.put(cls, ctr);
     }
 
     @Override
-    public <U extends Addressable, C extends AddressableContainer<U>> C get(Class<C> cls) {
+    public <U extends Addressable, C extends AddressableContainer<U>> C get(Class<U> cls) {
         return (C) containers.get(cls);
     }
 }

@@ -5,10 +5,7 @@ import org.kie.kogito.research.application.api.Event;
 import org.kie.kogito.research.application.api.Id;
 import org.kie.kogito.research.application.core.AbstractUnitInstance;
 import org.kie.kogito.research.application.core.RelativeUriId;
-import org.kie.kogito.research.processes.api.HumanTaskAttachmentContainer;
-import org.kie.kogito.research.processes.api.HumanTaskCommentContainer;
-import org.kie.kogito.research.processes.api.Task;
-import org.kie.kogito.research.processes.api.TaskInstance;
+import org.kie.kogito.research.processes.api.*;
 
 import java.util.UUID;
 
@@ -16,8 +13,8 @@ public class HumanTaskInstance extends AbstractUnitInstance<Task> implements Tas
 
     public HumanTaskInstance(Id parentId) {
         super(parentId.append(RelativeUriId.of(UUID.randomUUID().toString())));
-        register(HumanTaskCommentContainer.class, new HumanTaskCommentContainerImpl(id()));
-        register(HumanTaskAttachmentContainer.class, new HumanTaskAttachmentContainerImpl(id()));
+        register(HumanTaskComment.class, new HumanTaskCommentContainerImpl(id()));
+        register(HumanTaskAttachment.class, new HumanTaskAttachmentContainerImpl(id()));
     }
 
     @Override
@@ -56,11 +53,11 @@ public class HumanTaskInstance extends AbstractUnitInstance<Task> implements Tas
     }
 
     public HumanTaskCommentContainer comments() {
-        return get(HumanTaskCommentContainer.class);
+        return get(HumanTaskComment.class);
     }
 
     public HumanTaskAttachmentContainer attachments() {
-        return get(HumanTaskAttachmentContainer.class);
+        return get(HumanTaskAttachment.class);
     }
 
 }

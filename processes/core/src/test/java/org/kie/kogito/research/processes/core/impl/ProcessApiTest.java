@@ -7,7 +7,9 @@ import org.kie.kogito.research.application.api.RelativeId;
 import org.kie.kogito.research.application.core.RelativeUriId;
 import org.kie.kogito.research.application.core.SimpleUnitContainer;
 import org.kie.kogito.research.application.core.UriId;
+import org.kie.kogito.research.processes.api.HumanTaskComment;
 import org.kie.kogito.research.processes.api.Process;
+import org.kie.kogito.research.processes.api.TaskInstance;
 
 public class ProcessApiTest {
 
@@ -25,7 +27,8 @@ public class ProcessApiTest {
         var processContainer = app.get(Process.class);
 
         var pc = (SimpleUnitContainer<Process>) processContainer;
-        pc.register(processId, new ProcessImpl(UriId.of(app.id(), processId)));
+        var process = new ProcessImpl(UriId.of(app.id(), processId));
+        pc.register(processId, process);
 
         // createProcessInstance
         {
@@ -80,7 +83,7 @@ public class ProcessApiTest {
         processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstanceContainer.class)
+                .get(TaskInstance.class)
                 .get(taskInstanceId)
                 .send(new SignalEvent());
 
@@ -88,7 +91,7 @@ public class ProcessApiTest {
         processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstanceContainer.class)
+                .get(TaskInstance.class)
                 .get(taskInstanceId); // note: should be taskId !
 
         // completeTask
@@ -97,7 +100,7 @@ public class ProcessApiTest {
             processContainer.get(processId)
                     .instances()
                     .get(instanceId)
-                    .get(TaskInstanceContainer.class)
+                    .get(TaskInstance.class)
                     .get(taskInstanceId)// note: should be taskId !
                     .complete(new OutputModel());
         }
@@ -109,7 +112,7 @@ public class ProcessApiTest {
             processContainer.get(processId)
                     .instances()
                     .get(instanceId)
-                    .get(TaskInstanceContainer.class)
+                    .get(TaskInstance.class)
                     .get(taskInstanceId)// note: should be taskId !
                     .save(new OutputModel());
         }
@@ -120,7 +123,7 @@ public class ProcessApiTest {
             processContainer.get(processId)
                     .instances()
                     .get(instanceId)
-                    .get(TaskInstanceContainer.class)
+                    .get(TaskInstance.class)
                     .get(taskInstanceId)// note: should be taskId !
                     .transition(
                             new OutputModel(),
@@ -131,7 +134,7 @@ public class ProcessApiTest {
         OutputModel output = processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstanceContainer.class)
+                .get(TaskInstance.class)
                 .get(taskInstanceId)// note: should be taskId !
                 .context(OutputModel.class);
 
@@ -141,7 +144,7 @@ public class ProcessApiTest {
             processContainer.get(processId)
                     .instances()
                     .get(instanceId)
-                    .get(TaskInstanceContainer.class)
+                    .get(TaskInstance.class)
                     .get(taskInstanceId)// note: should be taskId !
                     .abort("some-phase");
         }
@@ -151,57 +154,59 @@ public class ProcessApiTest {
         var commentContainerId = processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstanceContainer.class)
+                .get(TaskInstance.class)
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .comments().id();
 
 
         // add comment
-        processContainer.get(processId)
+        var commentId = processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstanceContainer.class)
+                .get(TaskInstance.class)
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .comments()
-                .create();
+                .create(new HumanTaskCommentDataImpl("hello")).id().segment();
 
         // update comment
         processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstanceContainer.class)
+                .get(TaskInstance.class)
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .comments()
-                .update(RelativeUriId.of("some-comment"), new HumanTaskCommentDataImpl("info..."));
+                .get(commentId)
+                .update(new HumanTaskCommentDataImpl("info..."));
 
         // delete comment
         processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstanceContainer.class)
+                .get(TaskInstance.class)
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .comments()
-                .delete(RelativeUriId.of("some-id"));
+                .get(commentId)
+                .delete();
 
         // getComment
         processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstanceContainer.class)
+                .get(TaskInstance.class)
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .comments()
-                .get(RelativeUriId.of("some-id"));
+                .get(commentId);
 
         // getComments
         processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstanceContainer.class)
+                .get(TaskInstance.class)
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .comments();
@@ -213,7 +218,7 @@ public class ProcessApiTest {
                 processContainer.get(processId)
                         .instances()
                         .get(instanceId)
-                        .get(TaskInstanceContainer.class)
+                        .get(TaskInstance.class)
                         .get(taskInstanceId)
                         .as(HumanTaskInstance.class)
                         .attachments().id();
@@ -222,37 +227,39 @@ public class ProcessApiTest {
         processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstanceContainer.class)
+                .get(TaskInstance.class)
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .attachments()
-                .create();
+                .create(new HumanTaskAttachmentDataImpl("..."));
 
         // update attachment
         processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstanceContainer.class)
+                .get(TaskInstance.class)
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .attachments()
-                .update(RelativeUriId.of("some-id"), new HumanTaskAttachmentDataImpl("info..."));
+                .get(RelativeUriId.of("some-id"))
+                .update(new HumanTaskAttachmentDataImpl("info..."));
 
         // delete attachment
         processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstanceContainer.class)
+                .get(TaskInstance.class)
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .attachments()
-                .delete(RelativeUriId.of("some-id"));
+                .get(RelativeUriId.of("some-id"))
+                .delete();
 
         // getAttachment
         processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstanceContainer.class)
+                .get(TaskInstance.class)
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .attachments()
@@ -262,7 +269,7 @@ public class ProcessApiTest {
         processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstanceContainer.class)
+                .get(TaskInstance.class)
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .attachments();
@@ -272,7 +279,7 @@ public class ProcessApiTest {
         processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstanceContainer.class)
+                .get(TaskInstance.class)
                 .get(taskInstanceId);
 //                .unit();  // asJsonSchema() ??
 

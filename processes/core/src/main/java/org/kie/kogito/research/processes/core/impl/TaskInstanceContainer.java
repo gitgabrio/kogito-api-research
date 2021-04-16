@@ -4,10 +4,9 @@ import org.kie.kogito.research.application.api.Context;
 import org.kie.kogito.research.application.api.Id;
 import org.kie.kogito.research.application.api.RelativeId;
 import org.kie.kogito.research.application.core.AbstractUnitInstanceContainer;
-import org.kie.kogito.research.processes.api.Task;
 import org.kie.kogito.research.processes.api.TaskInstance;
 
-public class TaskInstanceContainer extends AbstractUnitInstanceContainer<Task, TaskInstance> {
+public class TaskInstanceContainer extends AbstractUnitInstanceContainer<TaskInstance> {
 
     public TaskInstanceContainer(Id parentId) {
         super(parentId, "tasks");

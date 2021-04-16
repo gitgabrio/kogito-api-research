@@ -5,13 +5,13 @@ import java.util.Map;
 
 import org.kie.kogito.research.application.api.*;
 
-public abstract class AbstractUnit<U extends Unit<U>, T extends Instance<U>> implements Unit<U> {
+public abstract class AbstractUnit<U extends Unit<U>, I extends Instance<U>> implements Unit<U> {
 
-    private final UnitInstanceContainer<U, ? extends Instance<U>> container;
+    private final UnitInstanceContainer<I> container;
     private final Id id;
     private final Map<Id, Instance<U>> instances = new HashMap<>();
 
-    public AbstractUnit(UnitInstanceContainer<U, ? extends Instance<U>> container, Id id) {
+    public AbstractUnit(UnitInstanceContainer<I> container, Id id) {
         this.container = container;
         this.id = id;
     }
@@ -22,8 +22,8 @@ public abstract class AbstractUnit<U extends Unit<U>, T extends Instance<U>> imp
     }
 
     @Override
-    public UnitInstanceContainer<U, T> instances() {
-        return (UnitInstanceContainer<U, T>) container;
+    public UnitInstanceContainer<I> instances() {
+        return container;
     }
 
     protected Instance<U> register(Instance<U> instance) {

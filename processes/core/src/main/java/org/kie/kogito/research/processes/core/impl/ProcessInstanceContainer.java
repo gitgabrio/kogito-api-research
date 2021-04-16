@@ -9,7 +9,7 @@ import org.kie.kogito.research.processes.api.ProcessInstance;
 
 import java.util.UUID;
 
-public class ProcessInstanceContainer extends AbstractUnitInstanceContainer<Process, ProcessInstance> {
+public class ProcessInstanceContainer extends AbstractUnitInstanceContainer<ProcessInstance> {
 
     private final ProcessImpl processImpl;
 

@@ -8,11 +8,11 @@ import org.kie.kogito.research.processes.api.HumanTaskCommentData;
 
 public class HumanTaskCommentImpl implements HumanTaskComment {
     private final Id id;
-    private final HumanTaskCommentDataImpl data;
+    private final HumanTaskCommentData data;
 
-    public HumanTaskCommentImpl(Id parent, RelativeId id, String data) {
+    public HumanTaskCommentImpl(Id parent, RelativeId id, HumanTaskCommentData data) {
         this.id = UriId.of(parent, id);
-        this.data = new HumanTaskCommentDataImpl(data);
+        this.data = data;
     }
 
     public Id id() {
@@ -22,4 +22,15 @@ public class HumanTaskCommentImpl implements HumanTaskComment {
     public HumanTaskCommentData data() {
         return data;
     }
+
+
+    public void update(HumanTaskCommentData comment) {
+        System.out.printf("UPDATE: %s -- %s\n", id(), comment);
+    }
+
+    public void delete() {
+        System.out.println("DELETE: " + this.id());
+    }
+
+
 }

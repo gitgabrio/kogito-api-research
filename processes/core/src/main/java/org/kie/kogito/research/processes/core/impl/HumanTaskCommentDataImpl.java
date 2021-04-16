@@ -12,4 +12,5 @@ public class HumanTaskCommentDataImpl implements HumanTaskCommentData {
     public String data() {
         return data;
     }
+
 }
