@@ -4,6 +4,8 @@ import org.kie.kogito.research.application.api.Context;
 import org.kie.kogito.research.application.api.Event;
 import org.kie.kogito.research.application.api.Id;
 import org.kie.kogito.research.application.core.AbstractUnitInstance;
+import org.kie.kogito.research.processes.api.HumanTaskAttachmentContainer;
+import org.kie.kogito.research.processes.api.HumanTaskCommentContainer;
 import org.kie.kogito.research.processes.api.Task;
 import org.kie.kogito.research.processes.api.TaskInstance;
 
@@ -11,8 +13,8 @@ public class HumanTaskInstance extends AbstractUnitInstance<Task> implements Tas
 
     public HumanTaskInstance(Id parentId) {
         super(parentId);
-        register(HumanTaskCommentContainer.class, new HumanTaskCommentContainer(id()));
-        register(HumanTaskAttachmentContainer.class, new HumanTaskAttachmentContainer(id()));
+        register(HumanTaskCommentContainer.class, new HumanTaskCommentContainerImpl(id()));
+        register(HumanTaskAttachmentContainer.class, new HumanTaskAttachmentContainerImpl(id()));
     }
 
     @Override

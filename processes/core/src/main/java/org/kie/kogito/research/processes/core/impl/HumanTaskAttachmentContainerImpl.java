@@ -2,10 +2,12 @@ package org.kie.kogito.research.processes.core.impl;
 
 import org.kie.kogito.research.application.api.Id;
 import org.kie.kogito.research.application.core.AbstractAddressableContainer;
+import org.kie.kogito.research.processes.api.HumanTaskAttachment;
+import org.kie.kogito.research.processes.api.HumanTaskAttachmentContainer;
 
-public class HumanTaskAttachmentContainer extends AbstractAddressableContainer<HumanTaskAttachment> {
+public class HumanTaskAttachmentContainerImpl extends AbstractAddressableContainer<HumanTaskAttachment> implements HumanTaskAttachmentContainer {
 
-    public HumanTaskAttachmentContainer(Id id) {
+    public HumanTaskAttachmentContainerImpl(Id id) {
         super(id, "attachments");
     }
 

@@ -2,10 +2,12 @@ package org.kie.kogito.research.processes.core.impl;
 
 import org.kie.kogito.research.application.api.Id;
 import org.kie.kogito.research.application.core.AbstractAddressableContainer;
+import org.kie.kogito.research.processes.api.HumanTaskComment;
+import org.kie.kogito.research.processes.api.HumanTaskCommentContainer;
 
-public class HumanTaskCommentContainer extends AbstractAddressableContainer<HumanTaskComment> {
+public class HumanTaskCommentContainerImpl extends AbstractAddressableContainer<HumanTaskComment> implements HumanTaskCommentContainer {
 
-    public HumanTaskCommentContainer(Id id) {
+    public HumanTaskCommentContainerImpl(Id id) {
         super(id, "comments");
     }
 

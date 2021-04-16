@@ -174,7 +174,7 @@ public class ProcessApiTest {
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .comments()
-                .update(new HumanTaskComment(taskInstanceId,"id", "info..."));
+                .update(new HumanTaskCommentImpl(taskInstanceId,"id", "info..."));
 
         // delete comment
         processContainer.get(processId)
@@ -235,7 +235,7 @@ public class ProcessApiTest {
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .attachments()
-                .update(new HumanTaskAttachment(new UriUnitId(attachContainerId, "some-id"), "info..."));
+                .update(new HumanTaskAttachmentImpl(new UriUnitId(attachContainerId, "some-id"), "info..."));
 
         // delete attachment
         processContainer.get(processId)
