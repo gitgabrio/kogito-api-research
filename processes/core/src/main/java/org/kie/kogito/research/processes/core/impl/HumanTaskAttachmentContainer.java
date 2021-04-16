@@ -15,12 +15,10 @@ public class HumanTaskAttachmentContainer extends AbstractAddressableContainer<H
 
     public void update(HumanTaskAttachment attachment) {
         System.out.println("UPDATE: " + attachment.id());
-
     }
 
     public void delete(Id id) {
         System.out.println("DELETE: " + id);
-
     }
 
 }

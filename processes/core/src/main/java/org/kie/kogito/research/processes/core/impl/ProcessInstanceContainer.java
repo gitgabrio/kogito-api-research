@@ -11,12 +11,16 @@ import java.util.UUID;
 
 public class ProcessInstanceContainer extends AbstractUnitInstanceContainer<Process, ProcessInstance> {
 
-    public ProcessInstanceContainer(Id parentId) {
+    private final ProcessImpl processImpl;
+
+    public ProcessInstanceContainer(Id parentId, ProcessImpl process) {
         super(parentId, "instances");
+        this.processImpl = process;
     }
 
     @Override
     public ProcessInstance create0(Context ctx) {
+        // ... use processImpl here ...
         return new ProcessInstanceImpl(new UriUnitId(this.id(), UUID.randomUUID().toString()));
     }
 }

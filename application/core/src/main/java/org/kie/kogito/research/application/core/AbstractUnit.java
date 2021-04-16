@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.kie.kogito.research.application.api.*;
 
-public abstract class AbstractUnit<U extends Unit<U>> implements Unit<U> {
+public abstract class AbstractUnit<U extends Unit<U>, T extends Instance<U>> implements Unit<U> {
 
     private final UnitInstanceContainer<U, ? extends Instance<U>> container;
     private final UnitId id;
@@ -22,8 +22,8 @@ public abstract class AbstractUnit<U extends Unit<U>> implements Unit<U> {
     }
 
     @Override
-    public UnitInstanceContainer<U, ? extends Instance<U>> instances() {
-        return container;
+    public UnitInstanceContainer<U, T> instances() {
+        return (UnitInstanceContainer<U, T>) container;
     }
 
     protected Instance<U> register(Instance<U> instance) {

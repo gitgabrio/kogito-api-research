@@ -6,9 +6,6 @@ public interface ProcessInstance extends Instance<Process> {
     // context
     <T extends Context> T variables(Class<T> cls);
 
-    // instead of tasks() ?
-    // <T extends UnitInstance> UnitInstanceContainer<T> get(Class<T> container);
-
     UnitInstanceContainer<Task, TaskInstance> tasks();
 
     void start();
