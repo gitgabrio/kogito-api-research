@@ -12,6 +12,7 @@ public class ProcessContainerImpl extends SimpleUnitContainer<Process> {
         super(application, "processes");
     }
 
+    // only for tests
     protected void register(Collection<? extends Process> processes) {
         for (Process p : processes) {
             super.register(p);

@@ -1,29 +1,24 @@
 package org.kie.kogito.research.processes.core.impl;
 
 import org.kie.kogito.research.application.api.Id;
-import org.kie.kogito.research.application.core.UriUnitId;
+import org.kie.kogito.research.application.core.AbstractAddressableContainer;
 
-public class HumanTaskCommentContainer {
-    private final Id id;
+public class HumanTaskCommentContainer extends AbstractAddressableContainer<HumanTaskComment> {
 
     public HumanTaskCommentContainer(Id id) {
-        this.id = new UriUnitId(id, "comments");
+        super(id, "comments");
     }
 
     public void create() {
-        System.out.println("CREATE: " + id);
+        System.out.println("CREATE: " + id());
     }
 
     public void update(HumanTaskComment comment) {
-        System.out.printf("UPDATE: %s -- %s\n", id, comment);
+        System.out.printf("UPDATE: %s -- %s\n", id(), comment);
     }
 
-    public void delete(String id) {
-        System.out.println("DELETE: " + this.get(id).id());
-    }
-
-    public HumanTaskComment get(String id) {
-        return new HumanTaskComment(this.id, id, "default");
+    public void delete(Id id) {
+        System.out.println("DELETE: " + id);
     }
 
 }

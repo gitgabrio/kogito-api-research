@@ -1,9 +1,10 @@
 package org.kie.kogito.research.processes.core.impl;
 
+import org.kie.kogito.research.application.api.Addressable;
 import org.kie.kogito.research.application.api.Id;
 import org.kie.kogito.research.application.core.UriUnitId;
 
-public class HumanTaskComment {
+public class HumanTaskComment implements Addressable {
     private final UriUnitId id;
     private final String info;
 
@@ -12,8 +13,8 @@ public class HumanTaskComment {
         this.info = info;
     }
 
-    public String id() {
-        return id.toString();
+    public Id id() {
+        return id;
     }
 
     public String info() {

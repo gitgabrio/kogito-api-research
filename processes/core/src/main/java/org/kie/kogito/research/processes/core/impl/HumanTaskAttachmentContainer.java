@@ -1,29 +1,24 @@
 package org.kie.kogito.research.processes.core.impl;
 
 import org.kie.kogito.research.application.api.Id;
-import org.kie.kogito.research.application.core.UriUnitId;
+import org.kie.kogito.research.application.core.AbstractAddressableContainer;
 
-public class HumanTaskAttachmentContainer {
-    private final Id id;
+public class HumanTaskAttachmentContainer extends AbstractAddressableContainer<HumanTaskAttachment> {
 
     public HumanTaskAttachmentContainer(Id id) {
-        this.id = new UriUnitId(id, "attachments");
+        super(id, "attachments");
     }
 
     public void create() {
-        System.out.println("CREATE: " + this.id);
+        System.out.println("CREATE: " + this.id());
     }
     public void update(HumanTaskAttachment attachment) {
-        System.out.println("CREATE: " + id + "/" + attachment.id());
+        System.out.println("CREATE: " + attachment.id());
 
     }
-    public void delete(String id) {
-        System.out.println("CREATE: " + this.id + "/" +id);
+    public void delete(Id id) {
+        System.out.println("CREATE: "  +id);
 
-    }
-
-    public HumanTaskAttachment get(String id) {
-        return null;
     }
 
 }

@@ -9,7 +9,7 @@ public abstract class AbstractUnit<U extends Unit<U>> implements Unit<U> {
 
     private final UnitContainer<U> container;
     private final UnitId id;
-    private final Map<Id, UnitInstance> instances = new HashMap<>();
+    private final Map<Id, Instance<U>> instances = new HashMap<>();
 
     public AbstractUnit(UnitContainer<U> container, UnitId id) {
         this.container = container;
@@ -26,7 +26,7 @@ public abstract class AbstractUnit<U extends Unit<U>> implements Unit<U> {
         return id;
     }
 
-    protected UnitInstance register(UnitInstance instance) {
+    protected Instance<U> register(Instance<U> instance) {
         instances.put(instance.id(), instance);
         return instance;
     }

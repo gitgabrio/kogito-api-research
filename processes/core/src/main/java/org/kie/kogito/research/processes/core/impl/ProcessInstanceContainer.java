@@ -17,6 +17,6 @@ public class ProcessInstanceContainer extends AbstractUnitInstanceContainer<Proc
 
     @Override
     public ProcessInstance create0(Context ctx) {
-        return new ProcessInstanceImpl(new UriUnitId(this.id(), UUID.randomUUID().toString()), null, ctx);
+        return new ProcessInstanceImpl(new UriUnitId(this.id(), UUID.randomUUID().toString()));
     }
 }

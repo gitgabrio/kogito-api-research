@@ -10,7 +10,9 @@ import org.kie.kogito.research.processes.api.TaskInstance;
 public class HumanTaskInstance extends AbstractUnitInstance<Task> implements TaskInstance  {
 
     public HumanTaskInstance(Id parentId) {
-        super(parentId, null, null);
+        super(parentId);
+        register(HumanTaskCommentContainer.class, new HumanTaskCommentContainer(id()));
+        register(HumanTaskAttachmentContainer.class, new HumanTaskAttachmentContainer(id()));
     }
 
     @Override
@@ -40,24 +42,20 @@ public class HumanTaskInstance extends AbstractUnitInstance<Task> implements Tas
 
     }
 
-    @Override
     public void start() {
         System.out.printf("START: %s\n", id());
 
     }
 
-    @Override
     public void complete() {
         System.out.printf("COMPLETE: %s\n", id());
 
     }
 
-    @Override
     public void abort() {
 
     }
 
-    @Override
     public <T extends Context> T update(T ctx) {
         return null;
     }
@@ -76,11 +74,11 @@ public class HumanTaskInstance extends AbstractUnitInstance<Task> implements Tas
     }
 
     public HumanTaskCommentContainer comments() {
-        return new HumanTaskCommentContainer(id());
+        return get(HumanTaskCommentContainer.class);
     }
 
     public HumanTaskAttachmentContainer attachments() {
-        return new HumanTaskAttachmentContainer(id());
+        return get(HumanTaskAttachmentContainer.class);
     }
 
 }

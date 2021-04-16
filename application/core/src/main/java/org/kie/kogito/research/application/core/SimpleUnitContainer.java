@@ -6,7 +6,7 @@ import java.util.Map;
 import org.kie.kogito.research.application.api.*;
 
 public class SimpleUnitContainer<U extends Unit> implements UnitContainer<U> {
-    private final Map<UnitId, U> units = new HashMap<>();
+    private final Map<Id, U> units = new HashMap<>();
     private final Application application;
     private final Id id;
 
