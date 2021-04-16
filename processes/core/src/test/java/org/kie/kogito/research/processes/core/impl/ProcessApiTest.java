@@ -4,10 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.kie.kogito.research.application.api.Application;
 import org.kie.kogito.research.application.api.Context;
 import org.kie.kogito.research.application.api.Id;
-import org.kie.kogito.research.application.api.UnitInstanceId;
 import org.kie.kogito.research.application.core.UriUnitId;
 import org.kie.kogito.research.processes.api.Process;
-import org.kie.kogito.research.processes.api.Task;
 
 import java.util.List;
 

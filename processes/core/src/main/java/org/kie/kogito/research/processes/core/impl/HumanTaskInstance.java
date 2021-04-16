@@ -1,12 +1,11 @@
 package org.kie.kogito.research.processes.core.impl;
 
-import org.kie.kogito.research.application.api.*;
+import org.kie.kogito.research.application.api.Context;
+import org.kie.kogito.research.application.api.Event;
+import org.kie.kogito.research.application.api.Id;
 import org.kie.kogito.research.application.core.AbstractUnitInstance;
-import org.kie.kogito.research.application.core.UriUnitId;
 import org.kie.kogito.research.processes.api.Task;
 import org.kie.kogito.research.processes.api.TaskInstance;
-
-import java.util.UUID;
 
 public class HumanTaskInstance extends AbstractUnitInstance<Task> implements TaskInstance  {
 
