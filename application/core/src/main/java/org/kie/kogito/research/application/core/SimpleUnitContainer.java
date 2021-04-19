@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.kie.kogito.research.application.api.*;
 
-public class SimpleUnitContainer<U extends Unit<U>> implements UnitContainer<U> {
+public class SimpleUnitContainer<U extends Unit<U>> implements AddressableContainer<U> {
     private final Map<RelativeId, U> units = new HashMap<>();
     private final Application application;
     private final Id id;
@@ -22,11 +22,6 @@ public class SimpleUnitContainer<U extends Unit<U>> implements UnitContainer<U> 
         // => ID maybe should not be an intrinsic property
         units.put(id, unit);
         return unit;
-    }
-
-    @Override
-    public Application application() {
-        return application;
     }
 
     @Override

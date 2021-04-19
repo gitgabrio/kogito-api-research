@@ -4,18 +4,14 @@ import org.kie.kogito.research.application.api.Context;
 import org.kie.kogito.research.application.api.Id;
 import org.kie.kogito.research.application.core.AbstractUnitInstanceContainer;
 import org.kie.kogito.research.application.core.UriId;
-import org.kie.kogito.research.processes.api.Process;
 import org.kie.kogito.research.processes.api.ProcessInstance;
 
 import java.util.UUID;
 
 public class ProcessInstanceContainer extends AbstractUnitInstanceContainer<ProcessInstance> {
 
-    private final ProcessImpl processImpl;
-
-    public ProcessInstanceContainer(Id parentId, ProcessImpl process) {
+    public ProcessInstanceContainer(Id parentId) {
         super(parentId, "instances");
-        this.processImpl = process;
     }
 
     @Override

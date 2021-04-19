@@ -1,10 +1,11 @@
 package org.kie.kogito.research.processes.api;
 
+import org.kie.kogito.research.application.api.Castable;
 import org.kie.kogito.research.application.api.Context;
 import org.kie.kogito.research.application.api.Event;
 import org.kie.kogito.research.application.api.Instance;
 
-public interface TaskInstance extends Instance<Task> {
+public interface TaskInstance extends Instance<Task>, Castable {
 
     void save(Context ctx);
 

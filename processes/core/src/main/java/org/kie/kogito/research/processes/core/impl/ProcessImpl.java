@@ -8,7 +8,7 @@ import org.kie.kogito.research.processes.api.ProcessInstance;
 public class ProcessImpl extends AbstractUnit<Process, ProcessInstance> implements Process {
 
     public ProcessImpl(Id id) {
-        super(new ProcessInstanceContainer(id, null), id);
+        super(new ProcessInstanceContainer(id), id);
     }
 
 }

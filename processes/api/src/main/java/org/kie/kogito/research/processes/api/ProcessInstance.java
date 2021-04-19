@@ -6,7 +6,7 @@ public interface ProcessInstance extends Instance<Process> {
     // context
     <T extends Context> T variables(Class<T> cls);
 
-    UnitInstanceContainer<TaskInstance> tasks();
+    AddressableContainerFactory<TaskInstance> tasks();
 
     void start();
 

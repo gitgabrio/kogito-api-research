@@ -4,7 +4,6 @@ import org.kie.kogito.research.application.api.*;
 import org.kie.kogito.research.application.core.AbstractUnitInstance;
 import org.kie.kogito.research.processes.api.Process;
 import org.kie.kogito.research.processes.api.ProcessInstance;
-import org.kie.kogito.research.processes.api.Task;
 import org.kie.kogito.research.processes.api.TaskInstance;
 
 public class ProcessInstanceImpl extends AbstractUnitInstance<Process> implements ProcessInstance {
@@ -15,7 +14,7 @@ public class ProcessInstanceImpl extends AbstractUnitInstance<Process> implement
     }
 
     @Override
-    public UnitInstanceContainer<TaskInstance> tasks() {
+    public AddressableContainerFactory<TaskInstance> tasks() {
         return get(TaskInstance.class);
     }
 

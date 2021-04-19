@@ -1,5 +1,8 @@
 package org.kie.kogito.research.application.api;
 
-public interface AddressableFactory<I extends Addressable, C> extends AddressableContainer<I> {
+/**
+ * Creates an Addressable from a Context object
+ */
+public interface AddressableFactory<I extends Addressable, C> {
     I create(C ctx);
 }
