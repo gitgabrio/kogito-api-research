@@ -29,7 +29,6 @@ public abstract class AbstractUnitInstance<T extends Unit<T>> implements Instanc
         containers.put(cls, ctr);
     }
 
-    @Override
     public <U extends Addressable, C extends AddressableContainer<U>> C get(Class<U> cls) {
         return (C) containers.get(cls);
     }

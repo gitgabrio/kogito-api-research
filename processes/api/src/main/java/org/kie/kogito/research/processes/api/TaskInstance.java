@@ -5,7 +5,7 @@ import org.kie.kogito.research.application.api.Context;
 import org.kie.kogito.research.application.api.Event;
 import org.kie.kogito.research.application.api.Instance;
 
-public interface TaskInstance extends Instance<Task>, Castable {
+public interface TaskInstance extends Instance<Task>, Castable<Instance<Task>> {
 
     void save(Context ctx);
 

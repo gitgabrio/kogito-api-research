@@ -2,7 +2,7 @@ package org.kie.kogito.research.processes.api;
 
 import org.kie.kogito.research.application.api.*;
 
-public interface ProcessInstance extends Instance<Process> {
+public interface ProcessInstance extends Instance<Process>, AddressableContainerContainer {
     // context
     <T extends Context> T variables(Class<T> cls);
 
