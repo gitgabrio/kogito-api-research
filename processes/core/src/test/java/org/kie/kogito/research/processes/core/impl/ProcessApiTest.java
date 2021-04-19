@@ -7,7 +7,6 @@ import org.kie.kogito.research.application.api.RelativeId;
 import org.kie.kogito.research.application.core.RelativeUriId;
 import org.kie.kogito.research.application.core.SimpleUnitContainer;
 import org.kie.kogito.research.application.core.UriId;
-import org.kie.kogito.research.processes.api.HumanTaskComment;
 import org.kie.kogito.research.processes.api.Process;
 import org.kie.kogito.research.processes.api.TaskInstance;
 
@@ -20,15 +19,33 @@ public class ProcessApiTest {
     @Test
     void test() {
         RelativeId processId = RelativeUriId.of("my-process-id");
-        RelativeId instanceId;
+
+        TestApp app = new TestApp();
+        var process = new ProcessImpl(UriId.of(app.id(), processId));
+        app.processes.register(processId, process);
+
+        testApplication(app);
+    }
+
+
+    @Test
+    void pathBuilder() {
+        RelativeId processId = RelativeUriId.of("my-process-id");
+        var application = new TestPathApp();
+        application.get(Process.class)
+                .get(processId)
+                .instances()
+                .create(new Person());
+
+    }
+
+    private void testApplication(Application app) {
+        RelativeId processId = RelativeUriId.of("my-process-id");
         RelativeId taskInstanceId = RelativeUriId.of("some-task");
 
-        Application app = new TestApp();
-        var processContainer = app.get(Process.class);
 
-        var pc = (SimpleUnitContainer<Process>) processContainer;
-        var process = new ProcessImpl(UriId.of(app.id(), processId));
-        pc.register(processId, process);
+        RelativeId instanceId;
+        var processContainer = app.get(Process.class);
 
         // createProcessInstance
         {
@@ -282,8 +299,6 @@ public class ProcessApiTest {
                 .get(TaskInstance.class)
                 .get(taskInstanceId);
 //                .unit();  // asJsonSchema() ??
-
-
     }
 
 }
