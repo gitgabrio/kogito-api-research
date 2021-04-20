@@ -10,6 +10,8 @@ import org.kie.kogito.research.application.core.UriId;
 import org.kie.kogito.research.processes.api.Process;
 import org.kie.kogito.research.processes.api.TaskInstance;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class ProcessApiTest {
 
     class Person implements Context {}
@@ -31,11 +33,24 @@ public class ProcessApiTest {
     @Test
     void pathBuilder() {
         RelativeId processId = RelativeUriId.of("my-process-id");
+        RelativeId instanceId = RelativeUriId.of("fake-instance-id");
+        RelativeId taskInstanceId = RelativeUriId.of("fake-task-instance-id");
         var application = new TestPathApp();
-        application.get(Process.class)
-                .get(processId)
-                .instances()
-                .create(new Person());
+
+        assertThrows(UnsupportedOperationException.class, () ->
+                application.get(Process.class)
+                        .get(processId)
+                        .instances()
+                        .create(new Person()));
+
+        assertThrows(UnsupportedOperationException.class, () ->
+                application.get(Process.class)
+                        .get(processId)
+                        .instances()
+                        .get(instanceId)
+                        .get(TaskInstanceContainer.class)
+                        .get(taskInstanceId)
+                        .create(new Person()));
 
     }
 
