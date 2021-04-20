@@ -3,7 +3,9 @@ package org.kie.kogito.research.exp;
 import org.junit.jupiter.api.Test;
 
 class App {
-    <T> Type<T> get(Class<T> cls) { return new Type<>(cls); }
+    <T> Type<T> get(Class<T> cls) {
+        return new Type<>(cls);
+    }
 }
 
 class Pair<U> {
@@ -13,7 +15,10 @@ class Pair<U> {
         this.id = id;
     }
 
-    <T> Type<T> get(Class<T> cls) { return new Type<>(cls); };
+    <T> Type<T> get(Type<T> cls) {
+        return cls;
+    }
+
     U resolve() {
         throw new UnsupportedOperationException();
     }
@@ -38,31 +43,59 @@ public class AnotherTest {
         App app = new App();
         app.get(Proc.class)
                 .get("process-id")
-                .get(ProcInst.class)
+                .get(ProcType.get().instances())
                 .get("instance-id")
-                .get(TaskInst.class)
+                .get(Task.instances())
                 .get("myTask")
                 .resolve()
                 .start();
 
         app.get(Proc.class)
                 .get("process-id")
-                .get(ProcInst.class)
+                .get(ProcType.get().instances())
                 .get("instance-id")
-                .get(TaskInst.class)
+                .get(Task.instances())
                 .get("myTask")
                 .resolve()
                 .start();
 
+
     }
 }
 
-interface Proc {
+
+
+class ProcType implements TypeProvider<Proc, ProcInst> {
+    public static ProcType get() {
+        return new ProcType();
+    }
+
+    public Type<Proc> type() {
+        return new Type<>(Proc.class);
+    }
+    public Type<ProcInst> instances() {
+        return new Type<>(ProcInst.class);
+    }
 };
+
+interface TypeProvider<T,U> {
+    Type<T> type();
+    Type<U> instances();
+}
+
+interface Proc {}
 
 interface ProcInst {
     void start();
 };
+
+interface Inst<T> {
+    Type<T> get(String s);
+}
+
+interface Task {
+    static Type<TaskInst> instances() { return new Type<>(TaskInst.class); }
+}
 
 interface TaskInst {
     void start();
