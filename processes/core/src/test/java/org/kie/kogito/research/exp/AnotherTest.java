@@ -3,20 +3,45 @@ package org.kie.kogito.research.exp;
 import org.junit.jupiter.api.Test;
 
 class App {
-    <T> Type<T> get(Class<T> cls) {
-        return new Type<>(cls);
+    <T> Catalog<T> forCatalog(Type<T> cls) {
+        return new Catalog<>(cls);
     }
 }
 
-class Pair<U> {
+class Catalog<U> {
+    public Catalog(Type<U> cls) {
+
+    }
+
+    Item<U> lookup(String id) {
+        return new Item<>(id);
+    }
+
+    public Item<U> lookup() {
+        return new Item<>("/");
+    }
+}
+
+class Leaf<U> {
+
+    public Leaf() {
+    }
+
+    U resolve() {
+        throw new UnsupportedOperationException();
+    }
+
+}
+
+class Item<U> {
     private final String id;
 
-    public Pair(String id) {
+    public Item(String id) {
         this.id = id;
     }
 
-    <T> Type<T> get(Type<T> cls) {
-        return cls;
+    <T> Catalog<T> forCatalog(Type<T> cls) {
+        return new Catalog<>(cls);
     }
 
     U resolve() {
@@ -25,14 +50,14 @@ class Pair<U> {
 }
 
 class Type<T> {
-    private final Class<T> cls;
+    private final String name;
 
-    public Type(Class<T> cls) {
-        this.cls = cls;
+    public Type(String name) {
+        this.name = name;
     }
 
-    Pair<T> get(String id) {
-        return new Pair<>(id);
+    public String name() {
+        return name;
     }
 }
 
@@ -41,28 +66,27 @@ public class AnotherTest {
     @Test
     public void scratch() {
         App app = new App();
-        app.get(Proc.class)
-                .get("process-id")
-                .get(ProcType.get().instances())
-                .get("instance-id")
-                .get(Task.instances())
-                .get("myTask")
+        app.forCatalog(Proc.meta.type())
+                .lookup("my.process.name")
+                .forCatalog(Proc.meta.instances())
+                .lookup("some.instance.id")
+                .forCatalog(Task.instances())
+                .lookup("myTask")
                 .resolve()
                 .start();
 
-        app.get(Proc.class)
-                .get("process-id")
-                .get(ProcType.get().instances())
-                .get("instance-id")
-                .get(Task.instances())
-                .get("myTask")
+        app.forCatalog(Proc.meta.type())
+                .lookup("process-id")
+                .forCatalog(Proc.meta.instances())
+                .lookup("instance-id")
+                .forCatalog(Task.instances())
+                .lookup("myTask")
                 .resolve()
                 .start();
 
 
     }
 }
-
 
 
 class ProcType implements TypeProvider<Proc, ProcInst> {
@@ -71,19 +95,23 @@ class ProcType implements TypeProvider<Proc, ProcInst> {
     }
 
     public Type<Proc> type() {
-        return new Type<>(Proc.class);
+        return new Type<>("processes");
     }
+
     public Type<ProcInst> instances() {
-        return new Type<>(ProcInst.class);
+        return new Type<>("instances");
     }
 };
 
-interface TypeProvider<T,U> {
+interface TypeProvider<T, U> {
     Type<T> type();
+
     Type<U> instances();
 }
 
-interface Proc {}
+interface Proc {
+    ProcType meta = ProcType.get();
+}
 
 interface ProcInst {
     void start();
@@ -94,7 +122,9 @@ interface Inst<T> {
 }
 
 interface Task {
-    static Type<TaskInst> instances() { return new Type<>(TaskInst.class); }
+    static Type<TaskInst> instances() {
+        return new Type<>("tasks");
+    }
 }
 
 interface TaskInst {

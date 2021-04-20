@@ -1,6 +1,5 @@
 package org.kie.kogito.research.application.api;
 
-public interface Addressable<T> {
+public interface Addressable {
     Id id();
-    T resolve();
 }
