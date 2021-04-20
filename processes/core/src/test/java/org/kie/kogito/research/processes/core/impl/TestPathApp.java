@@ -6,78 +6,51 @@ import org.kie.kogito.research.application.core.RelativeUriId;
 import org.kie.kogito.research.application.core.UriId;
 import org.kie.kogito.research.processes.api.Process;
 import org.kie.kogito.research.processes.api.ProcessInstance;
+import org.kie.kogito.research.processes.api.Task;
 import org.kie.kogito.research.processes.api.TaskInstance;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class TestPathApp extends AbstractApplication {
 
     {
-        register(Process.class, new PathProcessContainer(this.id(),  RelativeUriId.of("processes")));
+        register(Process.class, new ProcessPathContainer(this.id()));
     }
 
 
 }
 
-class PathProcess implements Process {
+class ProcessPathContainer extends PathContainer<Process> {
+    public ProcessPathContainer(Id id) {
+        super(id, RelativeUriId.of("processes"));
+    }
+    @Override public Process get(RelativeId id) {
+        return new PathProcess(this.id().append(id));
+    }
+}
 
-    private final Id id;
 
+class PathProcess extends PathUnit<Process, ProcessInstance> implements Process {
     public PathProcess(Id id) {
-        this.id = id;
+        super(id);
     }
-
-    @Override
-    public Id id() {
-        return id;
-    }
-
-    @Override
-    public AddressableContainerFactory<ProcessInstance> instances() {
-        return new PathProcessInstanceContainer(id, "instances");
-    }
-
-
-}
-
-class PathProcessContainer implements AddressableContainer<Process> {
-
-    private final Id id;
-    private final RelativeUriId processes;
-
-    public PathProcessContainer(Id id, RelativeUriId processes) {
-
-        this.id = id;
-        this.processes = processes;
-    }
-
-    @Override
-    public Id id() {
-        return id;
-    }
-
-    @Override
-    public Process get(RelativeId id) {
-        return new PathProcess(this.id.append(id));
+    @Override public AddressableContainerFactory<ProcessInstance> instances() {
+        return new PathProcessInstanceContainer(id());
     }
 }
 
-class PathProcessInstanceContainer implements AddressableContainerFactory<ProcessInstance> {
-    private final Id id;
 
-    public PathProcessInstanceContainer(Id parentId, String name) {
-        this.id = new UriId(parentId, name);
-    }
+class PathProcessInstanceContainer extends PathInstanceContainer<ProcessInstance> {
 
-    @Override
-    public Id id() {
-        return id;
+    public PathProcessInstanceContainer(Id parentId) {
+        super(parentId, "instances");
     }
 
     @Override
     public ProcessInstance get(RelativeId unitId) {
-        return new PathProcessInstance(id.append(unitId));
+        return new PathProcessInstance(id().append(unitId));
     }
 
     @Override
@@ -86,33 +59,15 @@ class PathProcessInstanceContainer implements AddressableContainerFactory<Proces
     }
 }
 
-
-
-class PathProcessInstance implements ProcessInstance {
-
-    private final Id id;
-    private final Map<Class<?>, AddressableContainer<?>> containers;
+class PathProcessInstance extends PathInstance<Process> implements ProcessInstance {
 
     public PathProcessInstance(Id id) {
-        this.id = id;
-        this.containers = new HashMap<>();
-    }
-
-    @Override
-    public Id id() {
-        return id;
+        super(id);
+        register(TaskInstance.class, new PathTaskInstanceContainer(id));
     }
 
     public <T extends Context> T context(Class<T> cls) {
         return null; //cls.cast(context); // should remap if they don't match!
-    }
-
-    protected final <U extends Addressable, C extends AddressableContainer<U>> void register(Class<U> cls, C ctr) {
-        containers.put(cls, ctr);
-    }
-
-    public <U extends Addressable, C extends AddressableContainer<U>> C get(Class<U> cls) {
-        return (C) containers.get(cls);
     }
 
     @Override
@@ -148,3 +103,131 @@ class PathProcessInstance implements ProcessInstance {
 
     }
 }
+
+
+class PathTaskInstanceContainer extends PathInstanceContainer<TaskInstance> {
+
+    public PathTaskInstanceContainer(Id parentId) {
+        super(parentId, "tasks");
+    }
+
+    @Override
+    public TaskInstance get(RelativeId id) {
+        return new PathTaskInstance(id().append(id));
+    }
+
+    @Override
+    public TaskInstance create(Context ctx) {
+        throw new UnsupportedOperationException("CREATE");
+    }
+}
+
+class PathTaskInstance extends PathInstance<Task> implements TaskInstance{
+
+    public PathTaskInstance(Id id) {
+        super(id);
+    }
+
+    @Override
+    public void save(Context ctx) {
+
+    }
+
+    @Override
+    public void complete(Context ctx) {
+
+    }
+
+    @Override
+    public void send(Event event) {
+
+    }
+
+    @Override
+    public void transition(Context ctx, String phase) {
+
+    }
+
+    @Override
+    public void abort(String phase) {
+        throw new UnsupportedOperationException("ABORT");
+    }
+}
+
+
+
+
+abstract class PathInstance<T extends Unit<T>> implements Instance<T> {
+
+    private final Id id;
+    private final Map<Class<?>, AddressableContainer<?>> containers;
+
+    public PathInstance(Id id) {
+        this.id = id;
+        this.containers = new HashMap<>();
+    }
+
+    @Override
+    public Id id() {
+        return id;
+    }
+
+    public <T extends Context> T context(Class<T> cls) {
+        return null; //cls.cast(context); // should remap if they don't match!
+    }
+
+    protected final <U extends Addressable, C extends AddressableContainer<U>> void register(Class<U> cls, C ctr) {
+        containers.put(cls, ctr);
+    }
+
+    public <U extends Addressable, C extends AddressableContainer<U>> C get(Class<U> cls) {
+        AddressableContainer<?> ctr = containers.get(cls);
+        if (ctr == null) throw new NoSuchElementException(cls.getCanonicalName());
+        return (C) ctr;
+    }
+
+}
+
+abstract class PathInstanceContainer<T extends Addressable> implements AddressableContainerFactory<T> {
+    private final Id id;
+
+    public PathInstanceContainer(Id parentId, String name) {
+        this.id = new UriId(parentId, name);
+    }
+
+    @Override
+    public Id id() {
+        return id;
+    }
+
+}
+
+abstract class PathContainer<T extends Unit<T>> implements AddressableContainer<T> {
+
+    private final Id id;
+    private final RelativeUriId relativeId;
+
+    public PathContainer(Id id, RelativeUriId relativeId) {
+
+        this.id = id;
+        this.relativeId = relativeId;
+    }
+
+    @Override
+    public Id id() {
+        return id;
+    }
+
+}
+
+
+abstract class PathUnit<T extends Unit<T>, I extends Instance<T>> implements Unit<T> {
+    private final Id id;
+    public PathUnit(Id id) {
+        this.id = id;
+    }
+    @Override public Id id() {
+        return id;
+    }
+}
+

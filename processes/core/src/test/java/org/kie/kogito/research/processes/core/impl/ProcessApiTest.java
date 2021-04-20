@@ -48,9 +48,9 @@ public class ProcessApiTest {
                         .get(processId)
                         .instances()
                         .get(instanceId)
-                        .get(TaskInstanceContainer.class)
+                        .get(TaskInstance.class)
                         .get(taskInstanceId)
-                        .create(new Person()));
+                        .abort("p"));
 
     }
 
