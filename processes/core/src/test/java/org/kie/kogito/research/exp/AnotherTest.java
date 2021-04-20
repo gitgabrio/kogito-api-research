@@ -89,9 +89,9 @@ public class AnotherTest {
 }
 
 
-class ProcType implements TypeProvider<Proc, ProcInst> {
-    public static ProcType get() {
-        return new ProcType();
+class ProcMeta implements TypeProvider<Proc, ProcInst> {
+    public static ProcMeta get() {
+        return new ProcMeta();
     }
 
     public Type<Proc> type() {
@@ -110,16 +110,12 @@ interface TypeProvider<T, U> {
 }
 
 interface Proc {
-    ProcType meta = ProcType.get();
+    ProcMeta meta = ProcMeta.get();
 }
 
 interface ProcInst {
     void start();
 };
-
-interface Inst<T> {
-    Type<T> get(String s);
-}
 
 interface Task {
     static Type<TaskInst> instances() {
