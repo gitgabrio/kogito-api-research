@@ -159,7 +159,7 @@ public class ProcessApiTest {
                 .tasks()
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
-                .comments();//.id();
+                .comments().id();
 
 /*
         // add comment
@@ -193,26 +193,26 @@ public class ProcessApiTest {
                 .comments()
                 .get(commentId)
                 .delete();
+*/
 
         // getComment
         processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstance.class)
+                .tasks()
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .comments()
-                .get(commentId);
+                .get(RelativeUriId.of("some-comment-id"));
 
         // getComments
         processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstance.class)
+                .tasks()
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .comments();
-
 
         // -------------- attachments --------------
 
@@ -220,16 +220,17 @@ public class ProcessApiTest {
                 processContainer.get(processId)
                         .instances()
                         .get(instanceId)
-                        .get(TaskInstance.class)
+                        .tasks()
                         .get(taskInstanceId)
                         .as(HumanTaskInstance.class)
                         .attachments().id();
+/*
 
         // add
         processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstance.class)
+                .tasks()
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .attachments()
@@ -257,11 +258,13 @@ public class ProcessApiTest {
                 .get(RelativeUriId.of("some-id"))
                 .delete();
 
+*/
+
         // getAttachment
         processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstance.class)
+                .tasks()
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .attachments()
@@ -271,12 +274,12 @@ public class ProcessApiTest {
         processContainer.get(processId)
                 .instances()
                 .get(instanceId)
-                .get(TaskInstance.class)
+                .tasks()
                 .get(taskInstanceId)
                 .as(HumanTaskInstance.class)
                 .attachments();
 
-
+/*
         // get schema and phases
         processContainer.get(processId)
                 .instances()
