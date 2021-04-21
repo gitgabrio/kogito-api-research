@@ -32,6 +32,14 @@ public class ProcessApiTestV2 {
                 .forCatalog(Processes.instances)
                 .get(instanceId)
                 .forCatalog(Processes.tasks)
+                .get(taskInstanceId)
+                .resolve();
+
+        application.forCatalog(Processes.type)
+                .get(processId)
+                .forCatalog(Processes.instances)
+                .get(instanceId)
+                .forCatalog(Processes.tasks)
                 .get()
                 .resolve();
 
@@ -40,12 +48,20 @@ public class ProcessApiTestV2 {
                 .forCatalog(Processes.instances)
                 .get(instanceId)
                 .factoryOf(Processes.tasks)
-                .create()
-                .resolve();
+                .get()
+                .resolve()
+                .create(new Person());
+
+
+        ///   / processes / my.process / instances / 9483784279384732 / tasks / 888888888
+        ///   / tasks    / my-task / instances /  888888888
+
+
+        ///   / tasks    / my-task / instances /  888888888
 
 
 
-        ///   abort [ / processes      /  my.process / tasks / XYZ  ]
+        ///   abort [ / processes      /  my.process / instances / 8437483743982
         ///             Process           @Named        ProcessInstance    @Named ... ?
 
 

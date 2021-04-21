@@ -1,9 +1,6 @@
 package org.kie.kogito.research.application.api.v2.address;
 
-import org.kie.kogito.research.application.api.Addressable;
-import org.kie.kogito.research.application.api.AddressableFactory;
-import org.kie.kogito.research.application.api.Id;
-import org.kie.kogito.research.application.api.RelativeId;
+import org.kie.kogito.research.application.api.*;
 import org.kie.kogito.research.application.api.v2.Type;
 
 public class Catalog<T> {
@@ -18,11 +15,8 @@ public class Catalog<T> {
         return new Item<>(this.id, id);
     }
 
-    public Leaf<T> get() {
+    public Leaf<AddressableContainer<T>> get() {
         return new Leaf<>();
     }
 
-    public Leaf<T> resolve() {
-        return get();
-    }
 }

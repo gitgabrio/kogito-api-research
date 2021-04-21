@@ -5,6 +5,6 @@ package org.kie.kogito.research.application.api;
  * which is also Addressable
  *
  */
-public interface AddressableContainer<T extends Addressable> extends Addressable {
+public interface AddressableContainer<T /*extends Addressable*/> extends Addressable {
     T get(RelativeId id);
 }

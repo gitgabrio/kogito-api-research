@@ -1,7 +1,6 @@
 package org.kie.kogito.research.application.api.v2.address;
 
-import org.kie.kogito.research.application.api.Id;
-import org.kie.kogito.research.application.api.RelativeId;
+import org.kie.kogito.research.application.api.*;
 import org.kie.kogito.research.application.api.v2.Type;
 
 public class Factory<T> {
@@ -16,4 +15,7 @@ public class Factory<T> {
         return new Leaf<>();
     }
 
+    public Leaf<AddressableFactory<Addressable, Context>> get() {
+        return null;
+    }
 }

@@ -48,7 +48,8 @@ public class ProcessApiTest {
                         .get(processId)
                         .instances()
                         .get(instanceId)
-                        .get(TaskInstance.class)
+                        .tasks()
+//                        .get(TaskInstance.class)
                         .get(taskInstanceId)
                         .abort("p"));
 
