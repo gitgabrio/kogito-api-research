@@ -5,6 +5,5 @@ import org.kie.kogito.research.application.api.AddressableFactory;
 
 public interface HumanTaskAttachmentContainer
         extends
-        AddressableContainer<HumanTaskAttachment>,
-        AddressableFactory<HumanTaskAttachment, HumanTaskAttachmentData> {
+        AddressableContainer<HumanTaskAttachment> {
 }

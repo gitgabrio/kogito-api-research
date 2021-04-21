@@ -1,9 +1,8 @@
 package org.kie.kogito.research.processes.api;
 
-import org.kie.kogito.research.application.api.Unit;
-import org.kie.kogito.research.application.api.AddressableContainerFactory;
+import org.kie.kogito.research.application.api.Addressable;
+import org.kie.kogito.research.application.api.AddressableContainer;
 
-public interface Process extends Unit<Process> {
-    @Override
-    AddressableContainerFactory<ProcessInstance> instances();
+public interface Process extends Addressable {
+    AddressableContainer<ProcessInstance> instances();
 }

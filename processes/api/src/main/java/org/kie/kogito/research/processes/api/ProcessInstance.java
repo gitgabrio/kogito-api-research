@@ -1,19 +1,10 @@
 package org.kie.kogito.research.processes.api;
 
-import org.kie.kogito.research.application.api.*;
+import org.kie.kogito.research.application.api.Addressable;
+import org.kie.kogito.research.application.api.AddressableContainer;
 
-public interface ProcessInstance extends Instance<Process>, AddressableContainerContainer {
-    // context
-    <T extends Context> T variables(Class<T> cls);
+public interface ProcessInstance extends Addressable {
 
-    AddressableContainerFactory<TaskInstance> tasks();
-
-    void start();
-
-    void abort();
-
-    <T extends Context> T update(T context);
-
-    void send(Event signalEvent);
+    AddressableContainer<TaskInstance> tasks();
 
 }

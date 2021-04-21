@@ -15,14 +15,13 @@ public abstract class AbstractApplication implements Application {
         return id;
     }
 
-    private final Map<Class<?>, AddressableContainer<?>> containers = new HashMap<>();
+    private final Map<Class<?>, Addressable> addressables = new HashMap<>();
 
-    protected <U extends Addressable, C extends AddressableContainer<U>> void register(Class<U> cls, C container) {
-        containers.put(cls, container);
+    protected <U extends AddressableContainer<?>> void register(Class<U> cls, U container) {
+        addressables.put(cls, container);
     }
 
-    @Override
-    public <U extends Addressable, C extends AddressableContainer<U>> C get(Class<U> cls) {
-        return (C) containers.get(cls);
+    public <U extends AddressableContainer<?>> U get(Class<U> cls) {
+        return (U) addressables.get(cls);
     }
 }
