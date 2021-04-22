@@ -2,7 +2,8 @@ package org.kie.kogito.research.processes.api;
 
 import org.kie.kogito.research.application.api.Addressable;
 import org.kie.kogito.research.application.api.Evaluable;
+import org.kie.kogito.research.application.api.Unit;
 
-public interface Process extends Addressable, Evaluable<Process> {
+public interface Process extends Unit, Addressable, Evaluable<Process> {
     ProcessInstanceContainer instances();
 }

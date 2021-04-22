@@ -1,11 +1,11 @@
-package org.kie.kogito.research.processes.core.impl;
+package org.kie.kogito.research.processes.core.tasks.impl;
 
 import org.kie.kogito.research.application.api.Id;
 import org.kie.kogito.research.application.core.AbstractAddressable;
 import org.kie.kogito.research.application.core.RelativeUriId;
-import org.kie.kogito.research.processes.api.HumanTaskAttachmentContainer;
-import org.kie.kogito.research.processes.api.HumanTaskCommentContainer;
-import org.kie.kogito.research.processes.api.TaskInstance;
+import org.kie.kogito.research.processes.api.tasks.HumanTaskAttachmentContainer;
+import org.kie.kogito.research.processes.api.tasks.HumanTaskCommentContainer;
+import org.kie.kogito.research.processes.api.tasks.TaskInstance;
 
 public class HumanTaskInstance extends AbstractAddressable implements TaskInstance {
 

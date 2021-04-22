@@ -1,8 +1,7 @@
-package org.kie.kogito.research.processes.core.service.impl;
+package org.kie.kogito.research.processes.core.services.impl;
 
 import org.kie.kogito.research.application.api.Context;
-import org.kie.kogito.research.processes.api.Task;
-import org.kie.kogito.research.processes.api.TaskInstance;
+import org.kie.kogito.research.processes.api.tasks.TaskInstance;
 import org.kie.kogito.research.processes.core.impl.SignalEvent;
 
 public class TaskInstanceDecorator {

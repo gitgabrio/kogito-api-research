@@ -1,9 +1,9 @@
-package org.kie.kogito.research.processes.core.service.impl;
+package org.kie.kogito.research.processes.core.services.impl;
 
 import org.kie.kogito.research.application.api.EvaluationServiceFactory;
 import org.kie.kogito.research.processes.api.Process;
 import org.kie.kogito.research.processes.api.ProcessInstance;
-import org.kie.kogito.research.processes.api.TaskInstance;
+import org.kie.kogito.research.processes.api.tasks.TaskInstance;
 
 public interface ProcessService {
     EvaluationServiceFactory<Process, ProcessDecorator> local =

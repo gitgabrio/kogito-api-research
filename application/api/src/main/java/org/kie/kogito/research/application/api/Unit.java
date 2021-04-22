@@ -1,4 +1,4 @@
 package org.kie.kogito.research.application.api;
 
-public interface Instance extends Addressable {
+public interface Unit extends Addressable{
 }

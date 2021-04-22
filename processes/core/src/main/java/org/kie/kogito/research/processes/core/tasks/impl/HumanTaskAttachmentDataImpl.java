@@ -1,6 +1,6 @@
-package org.kie.kogito.research.processes.core.impl;
+package org.kie.kogito.research.processes.core.tasks.impl;
 
-import org.kie.kogito.research.processes.api.HumanTaskAttachmentData;
+import org.kie.kogito.research.processes.api.tasks.HumanTaskAttachmentData;
 
 public class HumanTaskAttachmentDataImpl implements HumanTaskAttachmentData {
     final String data;

@@ -1,4 +1,4 @@
-package org.kie.kogito.research.processes.core.service.impl;
+package org.kie.kogito.research.processes.core.services.impl;
 
 import org.kie.kogito.research.application.api.Context;
 import org.kie.kogito.research.application.api.Event;

@@ -3,10 +3,13 @@ package org.kie.kogito.research.processes.core.impl;
 import org.junit.jupiter.api.Test;
 import org.kie.kogito.research.application.api.Application;
 import org.kie.kogito.research.application.api.Context;
+import org.kie.kogito.research.application.api.Instance;
 import org.kie.kogito.research.application.api.RelativeId;
 import org.kie.kogito.research.application.core.RelativeUriId;
 import org.kie.kogito.research.processes.api.ProcessContainer;
-import org.kie.kogito.research.processes.core.service.impl.ProcessService;
+import org.kie.kogito.research.processes.core.services.impl.ProcessService;
+import org.kie.kogito.research.processes.core.services.impl.UnitService;
+import org.kie.kogito.research.processes.core.tasks.impl.HumanTaskInstance;
 
 public class ProcessApiTest {
 
@@ -29,6 +32,15 @@ public class ProcessApiTest {
         RelativeId taskInstanceId = RelativeUriId.of("some-task");
 
         var processContainer = app.get(ProcessContainer.class);
+
+
+        // generic
+        {
+            Instance instance = processContainer.get(processId)
+                    .eval(UnitService.locally())
+                    .start(new Person());
+
+        }
 
         // createProcessInstance
         {
