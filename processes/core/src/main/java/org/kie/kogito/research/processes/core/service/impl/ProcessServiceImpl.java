@@ -8,6 +8,7 @@ import org.kie.kogito.research.processes.api.ProcessInstance;
 
 import java.util.function.Function;
 
+// mock impl
 public class ProcessServiceImpl {
 
     ProcessInstance start(Process id, Context ctx) {
@@ -23,15 +24,15 @@ public class ProcessServiceImpl {
     }
 
 
-    public <T extends Context> T context(ProcessInstance id, Class<T> ctx) {
-        return null;
-    }
-
     public void update(ProcessInstance id, Context ctx) {
 
     }
 
     public void send(ProcessInstance id, Event event) {
 
+    }
+
+    public <T extends Context> T context(ProcessInstance id, Class<T> ctx) {
+        return null;
     }
 }

@@ -13,6 +13,6 @@ public interface ProcessService {
     EvaluationServiceFactory<ProcessInstance, ProcessInstanceDecorator> localInstance =
             id -> new ProcessInstanceDecorator(new ProcessServiceImpl(), id);
     EvaluationServiceFactory<TaskInstance, TaskInstanceDecorator> localTask =
-            id -> new TaskInstanceDecorator();
+            id -> new TaskInstanceDecorator(new TaskServiceImpl(), id);
 }
 
