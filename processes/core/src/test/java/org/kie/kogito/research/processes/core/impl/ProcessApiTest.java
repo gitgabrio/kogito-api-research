@@ -6,6 +6,7 @@ import org.kie.kogito.research.application.api.Context;
 import org.kie.kogito.research.application.api.RelativeId;
 import org.kie.kogito.research.application.core.RelativeUriId;
 import org.kie.kogito.research.processes.api.ProcessContainer;
+import org.kie.kogito.research.processes.core.service.impl.ProcessService;
 
 public class ProcessApiTest {
 
@@ -27,52 +28,62 @@ public class ProcessApiTest {
         RelativeId instanceId = RelativeUriId.of("some-instance-id");
         RelativeId taskInstanceId = RelativeUriId.of("some-task");
 
-
         var processContainer = app.get(ProcessContainer.class);
 
         // createProcessInstance
         {
             var processInstance = processContainer
                     .get(processId)
-                    .instances();
-//                    .create(new Person());
-//            instanceId = processInstance.id().segment();
+                    .eval(ProcessService.local)
+                    .start(new Person());
 
-//            processInstance.start();
+            var runnableProcess = processContainer
+                    .get(processId)
+                    .eval(ProcessService.async);
+            var processInstance2 = runnableProcess
+                    .start(new Person());
+
+
+//                    .instances();
+//                    .create(new Person());
+            instanceId = processInstance.id().segment();
+
         }
 
         // getProcessInstanceOutput + findById
-//        OutputModel variables =
+        OutputModel variables =
                 processContainer.get(processId)
                 .instances()
-                .get(instanceId);
-//                .context(OutputModel.class);
+                .get(instanceId)
+                .eval(ProcessService.localInstance)
+                .context(OutputModel.class);
 
         // delete
         {
             var processInstance = processContainer.get(processId)
                     .instances()
-                    .get(instanceId);
-//            processInstance.abort();
-//            Person result = processInstance.context(Person.class);// how to let these stick around?
+                    .get(instanceId).eval(ProcessService.localInstance);
+            processInstance.abort();
+            Person result = processInstance.context(Person.class);// how to let these stick around?
         }
 
         // update
         {
             var processInstance = processContainer.get(processId)
                     .instances()
-                    .get(instanceId);
-//            processInstance
-//                    .update(new Person(/* ... */));
+                    .get(instanceId).eval(ProcessService.localInstance);
+            processInstance
+                    .update(new Person(/* ... */));
 
-//            OutputModel outputModel = processInstance.context(OutputModel.class);
+            OutputModel outputModel = processInstance.context(OutputModel.class);
         }
 
         // signalProcessInstance
         processContainer.get(processId)
                 .instances()
-                .get(instanceId);
-//                .send(new SignalEvent());
+                .get(instanceId)
+                .eval(ProcessService.localInstance)
+                .send(new SignalEvent());
 
         // get tasks
         processContainer.get(processId)
@@ -85,8 +96,9 @@ public class ProcessApiTest {
                 .instances()
                 .get(instanceId)
                 .tasks()
-                .get(taskInstanceId);
-//                .send(new SignalEvent());
+                .get(taskInstanceId)
+                .eval(ProcessService.localTask)
+                .send(new SignalEvent());
 
         // getTaskByName
         processContainer.get(processId)
@@ -102,8 +114,9 @@ public class ProcessApiTest {
                     .instances()
                     .get(instanceId)
                     .tasks()
-                    .get(taskInstanceId);// note: should be taskId !
-//                    .complete(new OutputModel());
+                    .get(taskInstanceId)// note: should be taskId !
+                    .eval(ProcessService.localTask)
+                    .complete(new OutputModel());
         }
 
 
@@ -114,8 +127,9 @@ public class ProcessApiTest {
                     .instances()
                     .get(instanceId)
                     .tasks()
-                    .get(taskInstanceId);// note: should be taskId !
-//                    .save(new OutputModel());
+                    .get(taskInstanceId)// note: should be taskId !
+                    .eval(ProcessService.localTask)
+                    .save(new OutputModel());
         }
 
         // taskTransition
@@ -125,20 +139,22 @@ public class ProcessApiTest {
                     .instances()
                     .get(instanceId)
                     .tasks()
-                    .get(taskInstanceId);// note: should be taskId !
-//                    .transition(
-//                            new OutputModel(),
-//                            "some-phase");
+                    .get(taskInstanceId)// note: should be taskId !
+                    .eval(ProcessService.localTask)
+                    .transition(
+                            new OutputModel(),
+                            "some-phase");
         }
 
         // getTask
-//        OutputModel output =
+        OutputModel output =
                 processContainer.get(processId)
                 .instances()
                 .get(instanceId)
                 .tasks()
-                .get(taskInstanceId);// note: should be taskId !
-//                .context(OutputModel.class);
+                .get(taskInstanceId)// note: should be taskId !
+                .eval(ProcessService.localTask)
+                .context(OutputModel.class);
 
         // abortTask
         {
@@ -147,8 +163,9 @@ public class ProcessApiTest {
                     .instances()
                     .get(instanceId)
                     .tasks()
-                    .get(taskInstanceId);// note: should be taskId !
-//                    .abort("some-phase");
+                    .get(taskInstanceId)// note: should be taskId !
+                    .eval(ProcessService.localTask)
+                    .abort("some-phase");
         }
 
         // -------------- comments --------------

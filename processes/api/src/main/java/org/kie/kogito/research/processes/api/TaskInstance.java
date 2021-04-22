@@ -2,7 +2,8 @@ package org.kie.kogito.research.processes.api;
 
 import org.kie.kogito.research.application.api.Addressable;
 import org.kie.kogito.research.application.api.Castable;
+import org.kie.kogito.research.application.api.Evaluable;
 
-public interface TaskInstance extends Castable<TaskInstance>, Addressable {
+public interface TaskInstance extends Castable<TaskInstance>, Addressable, Evaluable<TaskInstance> {
 
 }

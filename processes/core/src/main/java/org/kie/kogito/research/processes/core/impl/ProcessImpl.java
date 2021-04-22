@@ -6,6 +6,7 @@ import org.kie.kogito.research.application.core.AbstractAddressable;
 import org.kie.kogito.research.application.core.RelativeUriId;
 import org.kie.kogito.research.processes.api.Process;
 import org.kie.kogito.research.processes.api.ProcessInstance;
+import org.kie.kogito.research.processes.api.ProcessInstanceContainer;
 
 public class ProcessImpl extends AbstractAddressable implements Process {
 
@@ -14,7 +15,7 @@ public class ProcessImpl extends AbstractAddressable implements Process {
     }
 
     @Override
-    public AddressableContainer<ProcessInstance> instances() {
-        return new ProcessInstanceContainer(id().append(RelativeUriId.of("instances")));
+    public ProcessInstanceContainer instances() {
+        return new ProcessInstanceContainerImpl(id().append(RelativeUriId.of("instances")));
     }
 }

@@ -3,15 +3,16 @@ package org.kie.kogito.research.processes.core.impl;
 import org.kie.kogito.research.application.api.Id;
 import org.kie.kogito.research.application.core.AbstractAddressableContainer;
 import org.kie.kogito.research.processes.api.ProcessInstance;
+import org.kie.kogito.research.processes.api.ProcessInstanceContainer;
 
-public class ProcessInstanceContainer extends AbstractAddressableContainer<ProcessInstance> {
+public class ProcessInstanceContainerImpl extends AbstractAddressableContainer<ProcessInstance> implements ProcessInstanceContainer {
 
-    public ProcessInstanceContainer(Id id) {
+    public ProcessInstanceContainerImpl(Id id) {
         super(id);
     }
 
     @Override
-    public ProcessInstance create(Id id) {
+    protected ProcessInstance create(Id id) {
         // ... use processImpl here ...
         return new ProcessInstanceImpl(id);
     }
