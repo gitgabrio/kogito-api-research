@@ -5,18 +5,29 @@ import org.kie.kogito.research.application.api.RelativeId;
 
 import java.net.URI;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class UriId implements Id {
     public static UriId parse(String uri) {
         var u = URI.create(uri);
-        var path = Path.of(u);
-        var segment = RelativeUriId.of(path.getFileName().toString());
-        if (path.getParent() == null) {
-            return new UriId(null, segment);
-        } else {
-            return of(parse(path.getParent().toString()), segment);
+        var path = Path.of(u.getPath());
+
+        UriId id = new UriId(null, u.getHost());
+
+        ArrayList<RelativeUriId> segments =  new ArrayList<>();
+
+        while (path.getFileName() != null) {
+            var segment = RelativeUriId.of(path.getFileName().toString());
+            segments.add(segment);
+            path = path.getParent();
         }
+
+        for (int i = segments.size() - 1 ; i >= 0; i--) {
+            id = id.append(segments.get(i));
+        }
+
+        return id;
     }
 
     public static UriId of(Id parent, RelativeId current) {
