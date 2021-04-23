@@ -36,6 +36,11 @@ public class UriId implements Id {
     }
 
     @Override
+    public Id parent() {
+        return parent;
+    }
+
+    @Override
     public RelativeId segment() {
         return segment;
     }

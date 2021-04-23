@@ -13,7 +13,6 @@ public class ProcessInstanceContainerImpl extends AbstractAddressableContainer<P
 
     @Override
     protected ProcessInstance create(Id id) {
-        // ... use processImpl here ...
         return new ProcessInstanceImpl(id);
     }
 }

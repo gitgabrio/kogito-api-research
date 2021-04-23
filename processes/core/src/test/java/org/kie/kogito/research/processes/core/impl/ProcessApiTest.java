@@ -5,6 +5,7 @@ import org.kie.kogito.research.application.api.Application;
 import org.kie.kogito.research.application.api.Context;
 import org.kie.kogito.research.application.api.Instance;
 import org.kie.kogito.research.application.api.RelativeId;
+import org.kie.kogito.research.application.core.ApplicationImpl;
 import org.kie.kogito.research.application.core.RelativeUriId;
 import org.kie.kogito.research.processes.api.ProcessContainer;
 import org.kie.kogito.research.processes.core.services.impl.ProcessService;
@@ -21,7 +22,7 @@ public class ProcessApiTest {
     void test() {
         RelativeId processId = RelativeUriId.of("my-process-id");
 
-        TestApp app = new TestApp();
+        Application app = new ApplicationImpl();
         testApplication(app);
     }
 
