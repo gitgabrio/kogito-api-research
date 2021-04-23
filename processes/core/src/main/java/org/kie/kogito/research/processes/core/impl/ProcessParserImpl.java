@@ -4,7 +4,9 @@ import org.kie.kogito.research.application.api.Addressable;
 import org.kie.kogito.research.application.api.Id;
 import org.kie.kogito.research.application.api.RelativeId;
 import org.kie.kogito.research.application.core.RelativeUriId;
+import org.kie.kogito.research.processes.api.Process;
 import org.kie.kogito.research.processes.api.ProcessContainer;
+import org.kie.kogito.research.processes.api.ProcessInstance;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,10 +23,8 @@ public class ProcessParserImpl {
 
     Addressable parse(Id id) {
         ArrayList<RelativeId> segments = new ArrayList<>();
-        Id root = null;
         while (id != null) {
             if (id.segment().toString().equals("kogito-app")) {
-                root = id;
                 id = id.parent();
                 continue;
             }
@@ -32,47 +32,32 @@ public class ProcessParserImpl {
             id = id.parent();
         }
 
-
         Collections.reverse(segments);
-        return processes(root, segments);
+        return processes(segments);
     }
 
-    Addressable processes(Id root, List<RelativeId> rest) {
+    Addressable processes(List<RelativeId> rest) {
         var fragment = rest.remove(0);
-        if (fragment.equals(RelativeUriId.of("processes"))) {
-            return processId(root.append(fragment), rest);
+        if (fragment.equals(processContainer.id().segment())) {
+            return instanceId(processContainer.get(rest.remove(0)), rest);
         }
-        throw new IllegalArgumentException("expected 'processes', found: " + fragment);
+        throw new IllegalArgumentException("expected '/processes', found: " + fragment);
     }
 
-    Addressable processId(Id partial, List<RelativeId> rest) {
-        var processId = rest.remove(0);
-        partial = partial.append(processId);
-        if (rest.isEmpty()) {
-            return new ProcessImpl(partial);
+    Addressable instanceId(Process process, List<RelativeId> rest) {
+        if (rest.isEmpty()) return process;
+        else if (rest.remove(0).equals(process.instances().id().segment())) {
+            return nested(process.instances().get(rest.remove(0)), rest);
         } else {
-            return instances(partial, rest);
-        }
-    }
-
-    Addressable instances(Id partial, List<RelativeId> rest) {
-        var processId = rest.remove(0);
-        partial = partial.append(processId);
-        if (rest.isEmpty()) {
-            return new ProcessInstanceContainerImpl(partial);
-        } else {
-            return instanceId(partial, rest);
+            throw new IllegalArgumentException("expected /processes/<id>/instances/<id>, found: " + rest);
         }
     }
 
-    Addressable instanceId(Id partial, List<RelativeId> rest) {
-        var processId = rest.remove(0);
-        partial = partial.append(processId);
-        if (rest.isEmpty()) {
-            return new ProcessInstanceImpl(partial);
-        } else {
-            throw new UnsupportedOperationException("Cannot parse rest: " + rest);
+    private Addressable nested(ProcessInstance processInstance, List<RelativeId> rest) {
+        if (!rest.isEmpty()) {
+            throw new UnsupportedOperationException("cannot parse further: " + rest);
         }
+        return processInstance;
     }
 
 
