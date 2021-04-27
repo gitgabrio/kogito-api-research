@@ -46,10 +46,11 @@ public class ProcessParserImpl {
 
     Addressable instanceId(Process process, List<RelativeId> rest) {
         if (rest.isEmpty()) return process;
-        else if (rest.remove(0).equals(process.instances().id().segment())) {
+        var fragment = rest.remove(0);
+        if (fragment.equals(process.instances().id().segment())) {
             return nested(process.instances().get(rest.remove(0)), rest);
         } else {
-            throw new IllegalArgumentException("expected /processes/<id>/instances/<id>, found: " + rest);
+            throw new IllegalArgumentException("expected /processes/<id>/instances/<id>, found: " + fragment);
         }
     }
 
