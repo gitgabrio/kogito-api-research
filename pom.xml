@@ -17,6 +17,7 @@
 
   <modules>
     <module>application</module>
+    <module>decisions</module>
     <module>processes</module>
     <module>rules</module>
   </modules>
