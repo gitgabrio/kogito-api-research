@@ -7,6 +7,7 @@ import org.kie.kogito.research.application.core.ApplicationImpl;
 import org.kie.kogito.research.decisions.api.DecisionContainer;
 import org.kie.kogito.research.decisions.core.DecisionId;
 import org.kie.kogito.research.decisions.core.services.impl.DecisionEvaluationServiceImpl;
+import org.kie.kogito.research.decisions.core.services.impl.DecisionServices;
 
 public class DecisionApiTest {
     @Test
@@ -27,7 +28,12 @@ public class DecisionApiTest {
         var decisionService = new DecisionEvaluationServiceImpl();
         decisionService.evaluate(decision, new Person());
 
-
+        // fluent version (if desired)
+        application
+                .get(DecisionContainer.class)
+                .get(dmnId)
+                .eval(DecisionServices.local)
+                .evaluate(new Person());
 
     }
 
