@@ -17,11 +17,5 @@ public abstract class AbstractAddressableContainer<T extends Addressable> implem
         return id;
     }
 
-    @Override
-    public T get(RelativeId unitId) {
-        return create(id.append(unitId));
-    }
-
-    protected abstract T create(Id id);
 
 }
