@@ -5,8 +5,6 @@ import org.kie.kogito.research.application.api.Id;
 import org.kie.kogito.research.application.api.RelativeId;
 import org.kie.kogito.research.processes.api.ProcessContainer;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ProcessParserImpl {
@@ -19,44 +17,29 @@ public class ProcessParserImpl {
 
 
     Addressable parse(Id id) {
-        ArrayList<RelativeId> segments = new ArrayList<>();
-        while (id != null) {
-            if (id.segment().toString().equals("kogito-app")) {
-                id = id.parent();
-                continue;
-            }
-            segments.add(id.segment());
-            id = id.parent();
-        }
-
-        Collections.reverse(segments);
-        return parse(segments);
-    }
-
-
-    Addressable parse(List<RelativeId> rest) {
+        List<RelativeId> segments = id.segments();
         Addressable addressable = null;
         int index = -1;
         try {
             // /processes
-            var processes = rest.get(++index);
+            var processes = segments.get(++index);
             expect(processContainer.id().segment(), processes);
             addressable = processContainer;
 
             // /processes/$process_id
-            var processId = rest.get(++index);
+            var processId = segments.get(++index);
             var process = processContainer.get(processId);
             expect(process.id().segment(), processId);
             addressable = process;
 
             // /processes/$process_id/instances
-            var instances = rest.get(++index);
+            var instances = segments.get(++index);
             var processInstances = process.instances();
             expect(processInstances.id().segment(), instances);
             addressable = processInstances;
 
             // /processes/$process_id/instances/$process_instance_id
-            var processInstanceId = rest.get(++index);
+            var processInstanceId = segments.get(++index);
             var processInstance = processInstances.get(processInstanceId);
             expect(processInstance.id().segment(), processInstanceId);
             addressable = processInstance;
@@ -64,7 +47,7 @@ public class ProcessParserImpl {
             return addressable;
 
         } catch (IndexOutOfBoundsException e) {
-            if (rest.size() == index) {
+            if (segments.size() == index) {
                 return addressable;
             } else {
                 throw new IllegalArgumentException(e);

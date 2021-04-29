@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractApplication implements Application {
-    private Id id = new UriId(null, "kogito-app");
+    private Id id = UriId.parse("kogito://local-app");
 
     public Id id() {
         return id;

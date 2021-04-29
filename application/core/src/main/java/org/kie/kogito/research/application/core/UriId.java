@@ -4,66 +4,77 @@ import org.kie.kogito.research.application.api.Id;
 import org.kie.kogito.research.application.api.RelativeId;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class UriId implements Id {
+
+    public static final String URI_SCHEME = "kogito";
+
     public static UriId parse(String uri) {
         var u = URI.create(uri);
-        var path = Path.of(u.getPath());
 
-        UriId id = new UriId(null, u.getHost());
-
-        ArrayList<RelativeUriId> segments =  new ArrayList<>();
-
-        while (path.getFileName() != null) {
-            var segment = RelativeUriId.of(path.getFileName().toString());
-            segments.add(segment);
-            path = path.getParent();
+        String scheme = u.getScheme();
+        if (!scheme.equals(URI_SCHEME)) {
+            throw new IllegalArgumentException("Unknown scheme " + scheme);
         }
 
-        for (int i = segments.size() - 1 ; i >= 0; i--) {
-            id = id.append(segments.get(i));
+        if (u.getPath().isBlank()) {
+            return makeUri(u, Path.of("/"));
         }
 
-        return id;
+        return new UriId(u);
     }
 
-    public static UriId of(Id parent, RelativeId current) {
-        return new UriId(parent, current);
+    private static UriId makeUri(URI uri, Path path) {
+        if (!path.isAbsolute()) {
+            throw new IllegalArgumentException("Path must be absolute");
+        }
+        try {
+            return new UriId(new URI(URI_SCHEME, uri.getRawAuthority(), path.toString(), null, null));
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
-    private final Id parent;
-    private final RelativeId segment;
 
-    public UriId(Id parent, String segment) {
-        this(parent, RelativeUriId.of(segment));
-    }
+    private final URI uri;
+    private final Path path;
 
-    public UriId(Id parent, RelativeId segment) {
-        this.parent = parent;
-        this.segment = segment;
+    private UriId(URI uri) {
+        this.uri = uri;
+        this.path = Path.of(uri.getRawPath());
     }
 
     @Override
     public Id parent() {
-        return parent;
+        return makeUri(uri, path.getParent());
+    }
+
+    public UriId append(RelativeId segment) {
+        return makeUri(uri, path.resolve(segment.toString()));
     }
 
     @Override
     public RelativeId segment() {
-        return segment;
+        return RelativeUriId.of(path.getFileName().toString());
     }
 
-    public UriId append(RelativeId segment) {
-        return new UriId(this, segment);
+    @Override
+    public List<RelativeId> segments() {
+        ArrayList<RelativeId> relativeIds = new ArrayList<>();
+        for (Path p : path) {
+            relativeIds.add(RelativeUriId.of(p.toString()));
+        }
+        return relativeIds;
     }
 
     @Override
     public String toString() {
-        return (parent == null ? "kogito:/" : parent.toString()) +
-                '/' + segment.toString();
+        return uri.toString();
     }
 
     @Override

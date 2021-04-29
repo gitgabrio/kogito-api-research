@@ -7,7 +7,7 @@ import java.util.ServiceLoader;
 import java.util.stream.Collectors;
 
 public class ApplicationImpl implements Application {
-    private final Id id = UriId.of(null, RelativeUriId.of("kogito-app"));
+    private final Id id = UriId.parse("kogito://local-app");
     private final Map<Class<?>, AddressableContainer<?>> containers;
 
     public ApplicationImpl() {

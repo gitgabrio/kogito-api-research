@@ -1,8 +1,10 @@
 package org.kie.kogito.research.application.api;
 
-public interface Id {
-    Id append(RelativeId id);
+import java.util.List;
 
+public interface Id {
     Id parent();
+    Id append(RelativeId id);
     RelativeId segment();
+    List<RelativeId> segments();
 }
