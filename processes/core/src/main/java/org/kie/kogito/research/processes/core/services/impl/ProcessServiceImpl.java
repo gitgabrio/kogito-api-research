@@ -12,24 +12,27 @@ import java.util.function.Function;
 public class ProcessServiceImpl {
 
     ProcessInstance start(Process id, Context ctx) {
+        System.out.printf("START %s\n", id.id());
         return id.instances().get(RelativeUriId.random());
     }
 
     ProcessInstance start(ProcessInstance id, Context ctx) {
+        System.out.printf("START %s\n", id.id());
         return id;
     }
 
 
     void abort(ProcessInstance id) {
+        System.out.printf("ABORT %s\n", id.id());
     }
 
 
     public void update(ProcessInstance id, Context ctx) {
-
+        System.out.printf("UPDATE %s\n", id.id());
     }
 
     public void send(ProcessInstance id, Event event) {
-
+        System.out.printf("SEND %s\n", id.id());
     }
 
     public <T extends Context> T context(ProcessInstance id, Class<T> ctx) {
