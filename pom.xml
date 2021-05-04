@@ -16,10 +16,11 @@
 
 
   <modules>
-    <module>application</module>
-    <module>decisions</module>
-    <module>processes</module>
-    <module>rules</module>
+    <module>kogito-application</module>
+    <module>kogito-decisions</module>
+    <module>kogito-processes</module>
+    <module>kogito-rules</module>
+    <module>qnd</module>
   </modules>
 
   <dependencies>
